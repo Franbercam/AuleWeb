@@ -30,16 +30,21 @@ public class Servlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        float miles = Float.parseFloat(request.getParameter("miles"));
+        float km = miles * 1.6f;
+        
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Servlet</title>");            
+            out.println("<title>Lado Servlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Servlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Unit conversion result</h1>");
+            out.println("<p>"+ miles + "miles = " + km + " kilometres</p>");
             out.println("</body>");
             out.println("</html>");
         }
