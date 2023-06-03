@@ -43,7 +43,7 @@ public class Servlet extends HttpServlet {
             out.println("<title>Lado Servlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Unit conversion result pepe</h1>");
+            out.println("<h1>Unit conversion result pe</h1>");
             out.println("<p>"+ miles + "miles = " + km + " kilometres</p>");
             out.println("</body>");
             out.println("</html>");
