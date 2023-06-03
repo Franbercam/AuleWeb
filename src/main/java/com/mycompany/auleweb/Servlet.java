@@ -4,6 +4,7 @@
  */
 package com.mycompany.auleweb;
 
+import java.sql.Connection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
