@@ -5,21 +5,47 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 -->
 <html>
     <head>
-        <link rel="stylesheet" href="css/bootstrap-5.3.0-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
+        
     </head>    
     
     <body>
+       
         <header>
-            <nav class="navbar navbar-dark bg-dark">
-               <a class="navbar-brand" href="#">
-                <img src="/docs/logo-unicaq_400x400.png" width="30" height="30" alt="">
-               </a> 
-            <a href="index.html">Inicio</a>
-            <a href="pagina1.html">Página 1</a>
-            <a href="pagina2.html">Página 2</a>
-            <a href="pagina3.html">Página 3</a>
-            </nav>
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                  <a class="navbar-brand" href="#">Univaq
+                  <img src="../docs/logo-univaq_400x400.png" width="30" height="30" alt="">
+                  </a>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+
+                  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                      <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                      </li>
+                    </ul>
+                       
+                        <form class="form-inline my-2 my-lg-0 ml-auto">
+                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                      
+                        </form>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                     
+                  </div>
+                </nav>
+             </div>
+            
         </header>
-        <script src="css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
+        <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
+        <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.min.js"></script>
+       
     </body>
 </html>

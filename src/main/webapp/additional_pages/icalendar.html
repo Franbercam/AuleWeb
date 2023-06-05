@@ -5,6 +5,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 -->
 <html>
     <head>
+        <iframe src="../additional_pages/navbar.html" width="100%"></iframe>
         <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
         <title>Calendario</title>
         <meta charset="UTF-8">
@@ -16,6 +17,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div>
             <a href="../index.html" class="btn btn-primary">Calendario</a>
         </div>
+        <h1>Generar evento iCalendar</h1>
+        <form action="GenerarEventoServlet" method="post">
+            <label for="titulo">Título del evento:</label>
+            <input type="text" id="titulo" name="titulo" required><br>
+            <label for="fecha">Fecha y hora del evento:</label>
+            <input type="datetime-local" id="fecha" name="fecha" required><br>
+            <input type="submit" value="Generar iCalendar">
+        </form>
         <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
     </body>
 </html>
