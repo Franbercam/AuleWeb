@@ -1,0 +1,27 @@
+.container-navbar {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #f2f2f2;
+}
+
+.container-navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-navbar li {
+  padding: 2px;
+}
+
+.container-navbar a {
+  text-decoration: none;
+  color: #333;
+}
+
+.navbar-brand {
+    margin-left: 2%;
+}

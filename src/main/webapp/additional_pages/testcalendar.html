@@ -10,6 +10,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>Calendario</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src='../js/fullcalendar/index.global.min.js'></script>
+        <script>
+
+          document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+              initialView: 'dayGridMonth'
+            });
+            calendar.render();
+          });
+
+        </script>
     </head>
     <body>
         <h1>Test Calendario</h1>
@@ -17,6 +29,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div>
             <a href="../index.html" class="btn btn-primary">Calendario</a>
         </div>
+        <div id='calendar'></div>
         <h1>Generar evento iCalendar</h1>
         <form action="GenerarEventoServlet" method="post">
             <label for="titulo">Título del evento:</label>
