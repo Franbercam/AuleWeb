@@ -11,7 +11,7 @@ import java.sql.*;
  */
 public class SQLConstructor {
     
-    static final String DB_URL = "jdbc:mysql://localhost/test";
+    static final String DB_URL = "jdbc:mysql://localhost/aulaweb";
     static final String USER = "root";
     static final String PASS = "";
     
@@ -37,8 +37,8 @@ public class SQLConstructor {
       ) {		      
          // Execute a query
          System.out.println("Inserting records into the table...");          
-         String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (3,'Feeeee',222222,'httj')";
-         stmt.executeUpdate(sql);
+         //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
+         //stmt.executeUpdate(sql);
          System.out.println("Inserted records into the table...");   	  
       } catch (SQLException e) {
          System.out.println("no va");

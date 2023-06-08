@@ -5,31 +5,40 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 -->
 <html>
     <head>
-        <iframe src="../additional_pages/navbar.html" width="100%"></iframe>
+        <link rel="stylesheet" type="text/css" href="../css/calendar.css">
+        <iframe src="../additional_pages/navbar.html" width="100%" high="50px"></iframe>
         <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
         <title>Calendario</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src='../js/fullcalendar/index.global.min.js'></script>
+        <script src='../js/fullcalendar-sheduler/index.global.js'></script>
         <script>
 
           document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-              initialView: 'dayGridMonth'
+              schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+              initialView: 'resourceTimelineFourDays',   //dayGridMonth
+              views: {
+                resourceTimelineFourDays: {
+                type: 'resourceTimeline',
+                duration: { days: 4 }
+                    }
+                 }
             });
             calendar.render();
           });
 
         </script>
     </head>
+    
     <body>
-        <h1>Test Calendario</h1>
         <div id="calendarContent"></div>
         <div>
             <a href="../index.html" class="btn btn-primary">Calendario</a>
-        </div>
-        <div id='calendar'></div>
+        </div> 
+        <div class="calendar-style" id='calendar'></div>
         <h1>Generar evento iCalendar</h1>
         <form action="GenerarEventoServlet" method="post">
             <label for="titulo">Título del evento:</label>
@@ -38,6 +47,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <input type="datetime-local" id="fecha" name="fecha" required><br>
             <input type="submit" value="Generar iCalendar">
         </form>
+        <div class="calendar-style" id='calendar'></div>
         <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
     </body>
 </html>
