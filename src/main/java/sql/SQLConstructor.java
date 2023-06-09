@@ -5,6 +5,8 @@
 package sql;
 
 import java.sql.*;
+import java.io.*;
+
 /**
  *
  * @author ldrak
@@ -16,33 +18,81 @@ public class SQLConstructor {
     static final String PASS = "";
     
        public static void main(String[] args) { 
-       
-        try
-	{
-            SQLConstructor.insertSql();
-	}
-	catch(Exception e )
-	{
-            System.out.println("No funciona");
-            e.printStackTrace();
-	}
+           
+           readDataBuildings();
+           //readDataAules();     
        
        }
            
-    public static void insertSql() {       
+    public static void insertSql(String sql) {       
 
       // Open a connection
       try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
          Statement stmt = conn.createStatement();
       ) {		      
          // Execute a query
-         System.out.println("Inserting records into the table...");          
+         //System.out.println("Inserting records into the table...");          
          //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
-         //stmt.executeUpdate(sql);
-         System.out.println("Inserted records into the table...");   	  
+         stmt.executeUpdate(sql);
+         //System.out.println("Inserted records into the table...");   	  
       } catch (SQLException e) {
          System.out.println("no va");
          System.out.println(e);
       } 
     }
+    
+    public static void readDataBuildings(){
+        
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+ 
+        String linea = null;
+ 
+        try {
+            
+            //Cargamos el archivo de la ruta relativa
+            archivo = new File("src\\main\\webapp\\data\\edificios.csv");
+            //Cargamos el objeto FileReader
+            fr = new FileReader(archivo);
+            //Creamos un buffer de lectura
+            br = new BufferedReader(fr);
+ 
+            String[] datos = null;
+ 
+            //Leemos hasta que se termine el archivo
+            while ((linea = br.readLine()) != null) {
+ 
+                //Utilizamos el separador para los datos
+                datos = linea.split(";");
+                //Presentamos los datos
+               
+                String sql = "INSERT INTO edificios (id,nombre) VALUES ("+datos[0]+",'"+datos[1]+"')";
+                System.out.println(sql);
+                SQLConstructor.insertSql(sql);
+                //stmt.executeUpdate(sql);
+ 
+            }
+ 
+            //Capturamos las posibles excepciones
+        } catch (Exception e) {
+            System.out.println("No funciona");
+            e.printStackTrace();
+       
+        } finally {
+            try {
+                if (fr != null) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        
+    }
+    
+    public static void readDataAules(){
+    }
+    
+    
 }
