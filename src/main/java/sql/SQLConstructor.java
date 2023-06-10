@@ -20,7 +20,7 @@ public class SQLConstructor {
        public static void main(String[] args) { 
            
            readDataBuildings();
-           //readDataAules();     
+           readDataAules();     
        
        }
            
@@ -92,6 +92,51 @@ public class SQLConstructor {
     }
     
     public static void readDataAules(){
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+ 
+        String linea = null;
+ 
+        try {
+            
+            //Cargamos el archivo de la ruta relativa
+            archivo = new File("src\\main\\webapp\\data\\aulas.csv");
+            //Cargamos el objeto FileReader
+            fr = new FileReader(archivo);
+            //Creamos un buffer de lectura
+            br = new BufferedReader(fr);
+ 
+            String[] datos = null;
+ 
+            //Leemos hasta que se termine el archivo
+            while ((linea = br.readLine()) != null) {
+ 
+                //Utilizamos el separador para los datos
+                datos = linea.split(";");
+                //Presentamos los datos
+                String sql = "INSERT INTO aulas (id, idEdificios, nombre, descripcion, ubicacion, aforo, numEnchufes, red, tieneProyector, tienePantallaMotorizada, tienePantallaManual, tieneSisAudio, tienePC, tieneMicIna, tieneMicAla, tieneRetroProy, tieneWifi) VALUES ("+datos[0]+",'"+datos[1]+"','"+datos[2]+"','"+datos[3]+"','" +datos[4]+"','"+datos[5]+"','"+datos[6]+"','"+datos[7]+"','"+datos[8]+"','"+datos[9]+"','"+datos[10]+"','"+datos[11]+"','"+datos[12]+"','"+datos[13]+"','"+datos[14]+"','"+datos[15]+"','"+datos[16]+"')";
+                System.out.println(sql);
+                SQLConstructor.insertSql(sql);
+                //stmt.executeUpdate(sql);
+ 
+            }
+ 
+            //Capturamos las posibles excepciones
+        } catch (Exception e) {
+            System.out.println("No funciona");
+            e.printStackTrace();
+       
+        } finally {
+            try {
+                if (fr != null) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        
     }
     
     
