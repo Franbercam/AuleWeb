@@ -17,12 +17,23 @@ public class SQLConstructor {
     static final String USER = "root";
     static final String PASS = "";
     
+    
+    
        public static void main(String[] args) { 
            
-           readDataBuildings();
-           readDataAules();     
+           //readDataBuildings();
+           //readDataAules();          
        
        }
+       
+       public static void readEvents(int idAula, String nombre, String descripcion, String nombreResponsable, String emailResponsable, String fechaInicio, String fechaFin, String tipo, String recurrencia, String fechaFinRecurrencia){
+        
+            String sql = "INSERT INTO edificios (nombre,descripcion,nombreResponsable,emailResponsable,fechaInicio,fechaFin,tipo,recurrencia,fechaFinRecurrencia) VALUES "
+                    + "('"+idAula+"','"+nombre+"','"+descripcion+"','" +nombreResponsable+"','"+emailResponsable+"','"+fechaInicio+"','"+fechaFin+"','"+tipo+"','"+recurrencia+"','"+fechaFinRecurrencia+"')";
+            System.out.println(sql);
+            SQLConstructor.insertSql(sql);
+        
+    }
            
     public static void insertSql(String sql) {       
 

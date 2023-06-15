@@ -14,7 +14,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src='../js/fullcalendar/index.global.min.js'></script>
         <script src='../js/fullcalendar-sheduler/index.global.js'></script>
         <script>
-
           document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -25,14 +24,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
               slotMaxTime: '20:00:00',
               allDaySlot: false,
               events: [
-    {
-      title  : 'event3',
-      start  : '2023-06-10T12:30:00',
-      end    : '2023-06-10T14:30:00',
-      allDay : false // will make the time show
-    }
-  ],
-              
+                        {
+                          title  : '',
+                          start  : '2023-06-10T12:30:00',
+                          end    : '2023-06-10T14:30:00',
+                          allDay : false // will make the time show
+                        }
+                      ],            
               views: {
                 resourceTimelineFourDays: {   
                 type: 'resourceTimeline',
@@ -41,10 +39,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                  }              
             });
             
-            calendar.render();
-            
+            calendar.render();            
           });
-
         </script>
        
     </head>
@@ -71,36 +67,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                           }  
             }
         </script>
-        <button onclick="addevent()">Add Event</button>
-        <p id="demo"></p>
+        
+        
+    
         <div>
             <a href="../index.html" class="btn btn-primary">Home</a>
-        </div> 
-<<<<<<< HEAD
-        
+        </div>
+        <div>
+            <a href="addevent.html" class="btn btn-primary">Add Event</a>
+        </div>
         <div class="calendar-style" id='calendar'></div>        
-       
-=======
-        <div class="calendar-style" id='calendar'></div>
-        <h1>Generar evento iCalendar</h1>
-        <form action="GenerarEventoServlet" method="post">
-            <label for="titulo">Título del evento:</label>
-            <input type="text" id="titulo" name="titulo" required><br>
-            <label for="fecha">Fecha y hora del evento:</label>
-            <input type="datetime-local" id="fecha" name="fecha" required><br>
-            <input type="submit" value="Generar iCalendar">
-        </form>
-        <div class="calendar-style" id='calendar'></div>
-        <button onclick="myFunction()">Click me</button>
-
-<p id="demo"></p>
-
-<script>
-function myFunction() {
-  document.getElementById("demo").innerHTML = "Hello World";
-}
-</script>
->>>>>>> 261c69efaa6df18db218e7b1515b531a3ebd199f
+     
         <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
     </body>
 </html>

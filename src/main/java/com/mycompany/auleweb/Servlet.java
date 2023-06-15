@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import sql.SQLConstructor;
+
 /**
  *
  * @author ldrak
@@ -29,26 +31,24 @@ public class Servlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        float miles = Float.parseFloat(request.getParameter("miles"));
-        float km = miles * 1.6f;
-        
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Lado Servlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Unit conversion result pe</h1>");
-            out.println("<p>"+ miles + "miles = " + km + " kilometres</p>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+       SQLConstructor test = new SQLConstructor();
+       String nom = request.getParameter("nombre");
+       Integer idAula = Integer.parseInt(request.getParameter("idaula"));
+       String des = request.getParameter("description");
+       String snom = request.getParameter("staffname");
+       String email = request.getParameter("email");
+       String startdate = request.getParameter("startDate");
+       String enddate = request.getParameter("endDate");
+       String tipo = request.getParameter("tipo");
+       String recu = request.getParameter("recurrencia");
+       String ffrecu = request.getParameter("fechafinrecurrencia");
+       test.readEvents(idAula,nom,des,snom,email,startdate,enddate,tipo,recu,ffrecu);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

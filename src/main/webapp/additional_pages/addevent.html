@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Add Event</title>
+        <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="../css/addevent.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+         <-src/main/java/com/mycompany/auleweb/->
+         <form action="../com/mycompany/auleweb/Servlet.java" class ="form-event" method="post" enctype="">
+           <h1 class= "form__title">Add Event</h1>
+           <div class="container--flex">
+               <label for="" class="form__label">Aule Id</label>
+               <input type="text" class="form__input" name="idaula" required>
+           </div>
+           <div class="container--flex">
+               <label for="" class="form__label">Name Event</label>
+               <input type="text" class="form__input" name="nombre" required>
+           </div>
+            <div class="container--flex">
+               <label for="" class="form__label">Description</label>
+               <input type="text" class="form__input" name="description" required>
+           </div>
+           <div class="container--flex">
+               <label for="" class="form__label">Staff Name</label>
+               <input type="text" class="form__input" name="staffname" required>
+           </div>
+           <div class="container--flex">
+               <label for="" class="form__label">email</label>
+               <input type="email" class="form__input" name= "email" required>
+           </div>
+           <div class="container--flex">
+               <label for="" class="form__label">Start Data</label>
+               <input type="text" class="form__input" name= "startDate" required>
+           </div> 
+           <div class="container--flex">
+               <label for="" class="form__label">End Data</label>
+               <input type="text" class="form__input" name= "endDate" required>
+           </div>
+            <div class="container--flex">
+               <label for="" class="form__label">Type</label>
+               <select name="tipo">
+                <option value="conferencia">conferencia</option>
+                <option value="examen">examen</option>
+                <option value="seminario">seminario</option>
+                <option value="parcial">parcial</option>
+                <option value="mitin">mitin</option>
+                <option value="graduacion">graduación</option>
+                <option value="otros">otros</option>
+              </select>
+           </div>
+           <div class="container--flex">
+               <label for="" class="form__label">Recurrencia</label>
+               <select name="recurrencia">
+                <option value="diaria">diaria</option>
+                <option value="semanal">semanal</option>
+                <option value="mensual">mensual</option>
+                <option value="nula">nula</option>             
+              </select>
+           </div>
+           <div class="container--flex">
+               <label for="" class="form__label">End Data Recurrency</label>
+               <input type="text" class="form__input" name= "fechafinrecurrencia">
+           </div>
+
+          
+           <input type="submit">
+           <a href="../index.html" class="btn btn-primary">Home</a>
+         </form> 
+        
+        <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
+    </body>
+</html>
