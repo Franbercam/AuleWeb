@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.*;
 
 import sql.SQLConstructor;
 
@@ -36,7 +37,22 @@ public class Servlet extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+             
         
+    try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/aulaweb", "root", "");
+         Statement stmt = conn.createStatement();
+    ) {		      
+         // Execute a query
+         //System.out.println("Inserting records into the table...");          
+         //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
+         //stmt.executeUpdate(sql);
+         //System.out.println("Inserted records into the table...");   	  
+    } catch (SQLException e) {
+         System.out.println("no va");
+         System.out.println(e);
+    } 
+             
+             
        SQLConstructor test = new SQLConstructor();
        String nom = request.getParameter("nombre");
        Integer idAula = Integer.parseInt(request.getParameter("idaula"));
@@ -48,8 +64,11 @@ public class Servlet extends HttpServlet {
        String tipo = request.getParameter("tipo");
        String recu = request.getParameter("recurrencia");
        String ffrecu = request.getParameter("fechafinrecurrencia");
+       System.out.println(nom+idAula+des+snom+email+startdate+enddate+tipo+recu+ffrecu);
        test.readEvents(idAula,nom,des,snom,email,startdate,enddate,tipo,recu,ffrecu);
+       
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

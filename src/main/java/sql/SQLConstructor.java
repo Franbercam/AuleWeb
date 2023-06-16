@@ -22,19 +22,21 @@ public class SQLConstructor {
        public static void main(String[] args) { 
            
            //readDataBuildings();
-           //readDataAules();          
-       
+           //readDataAules();  
+           exeQuery();
+           //readEvents(2, "a", "a", "a", "a@a.com", "2023-06-16T14:30:00", "2023-06-16T15:30:00", "examen", "nula", "1753-01-01T00:00:00" );
        }
        
        public static void readEvents(int idAula, String nombre, String descripcion, String nombreResponsable, String emailResponsable, String fechaInicio, String fechaFin, String tipo, String recurrencia, String fechaFinRecurrencia){
         
-            String sql = "INSERT INTO edificios (nombre,descripcion,nombreResponsable,emailResponsable,fechaInicio,fechaFin,tipo,recurrencia,fechaFinRecurrencia) VALUES "
-                    + "('"+idAula+"','"+nombre+"','"+descripcion+"','" +nombreResponsable+"','"+emailResponsable+"','"+fechaInicio+"','"+fechaFin+"','"+tipo+"','"+recurrencia+"','"+fechaFinRecurrencia+"')";
+            String sql = "INSERT INTO eventos (idAula,nombre,descripcion,nombreResponsable,emailResponsable,fechaInicio,fechaFin,tipo,recurrencia,fechaFinRecurrencia) VALUES "
+                    + "("+idAula+",'"+nombre+"','"+descripcion+"','" +nombreResponsable+"','"+emailResponsable+"','"+fechaInicio+"','"+fechaFin+"','"+tipo+"','"+recurrencia+"','"+fechaFinRecurrencia+"')";
             System.out.println(sql);
             SQLConstructor.insertSql(sql);
         
     }
-           
+             
+       
     public static void insertSql(String sql) {       
 
       // Open a connection
@@ -52,6 +54,24 @@ public class SQLConstructor {
       } 
     }
     
+        public static void exeQuery() {       
+            String QUERY = "SELECT * FROM eventos";
+            // Open a connection
+      try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(QUERY);
+      ) {		      
+         while(rs.next()){
+            //Display values
+            System.out.print("ID: " + rs.getInt("id"));
+            System.out.print(", NOMBRE: " + rs.getString("nombre"));
+            System.out.print(", DESCRIPCION: " + rs.getString("descripcion"));
+            System.out.println(", TIPO: " + rs.getString("tipo"));
+         }
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+    }
     public static void readDataBuildings(){
         
         File archivo = null;
