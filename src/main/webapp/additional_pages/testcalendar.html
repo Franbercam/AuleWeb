@@ -6,78 +6,139 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="../css/calendar.css">
-        <iframe src="../additional_pages/navbar.html" width="100%" high="50px"></iframe>
-        <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
-        <title>Calendario</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src='../js/fullcalendar/index.global.min.js'></script>
-        <script src='../js/fullcalendar-sheduler/index.global.js'></script>
-        <script>
-          document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-              schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-              initialView: 'timeGridWeek',   //dayGridMonth, resourceTimelineFourDays
-              slotDuration: '00:05',
-              slotMinTime: '08:30:00',
-              slotMaxTime: '20:00:00',
-              allDaySlot: false,
-              events: [
-                        {
-                          title  : '',
-                          start  : '2023-06-10T12:30:00',
-                          end    : '2023-06-10T14:30:00',
-                          allDay : false // will make the time show
-                        }
-                      ],            
-              views: {
-                resourceTimelineFourDays: {   
-                type: 'resourceTimeline',
-                duration: { days: 1 }
-                    }
-                 }              
+    <iframe src="../additional_pages/navbar.html" width="100%" high="50px"></iframe>
+    <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
+    <title>Calendario</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='../js/fullcalendar/index.global.min.js'></script>
+    <script src='../js/fullcalendar-sheduler/index.global.js'></script>
+    <script>
+        const id = parseInt(new URL(window.location.href).searchParams.get("id"));
+        const idAulaParam = parseInt(new URL(window.location.href).searchParams.get("idAula"));
+
+
+        window.onload = function () {
+            declareListeners();
+            loadAulas(loadSelectAulas);
+        };
+
+
+        /*setTimeout(() => {
+         calendar.addEvent({
+         title: '',
+         start: '2023-06-25T16:30:00',
+         end: '2023-06-25T18:30:00',
+         allDay: false // will make the time show
+         }
+         );
+         
+         }, 5000);*/
+
+        function declareListeners() {
+            document.querySelector("#select_aulas").addEventListener("change", function () {
+                const aulaId = this.options[this.selectedIndex].getAttribute("id");
+                loadEventos(aulaId, createCalendario);
             });
             
-            calendar.render();            
-          });
-        </script>
-       
-    </head>
-    
-    <body>
-        <script>
-            function addevent() {
-              var dateStr = prompt('Enter a date in YYYY-MM-DD-00:00 format');
-              console.log("0")
-                          var date = new Date(dateStr + 'T09:00:00-05:00');
-                          console.log("1")
-                          if(!isNaN(date.valueOf())) {
-                              console.log("2")
-                              calendar.addEvent({                              
-                                title: 'dynamic event',
-                                startStr: date,
-                                endStr: date,
-                                allDay: false
-                            });
-                            console.log("3"),
-                            alert('Great. Now, update your database...');
-                          } else {
-                              alert('Invalid date.');
-                          }  
-            }
-        </script>
+            document.querySelector("#add_event").addEventListener("click", function(){
+                const select = document.querySelector("#select_aulas");
+                const aulaId = select.options[select.selectedIndex].getAttribute("id");
+                
+                if(!aulaId){
+                    alert("Seleccione un aula");
+                    return;
+                }
+                
+                goToNuevoEvento(aulaId);
+
+                
+            });
+        }
+        function loadAulas(callBack) {
+            fetch(`/AuleWeb/AulasServlet?id=${id}`)
+                    .then(res => res.json())
+                    .then(res => callBack(res));
+        }
+
+        function loadEventos(idAula, callBack) {
+            fetch(`/AuleWeb/EventosServlet?id=${idAula}`)
+                    .then(res => res.json())
+                    .then(res => callBack(res));
+        }
+
+        function loadSelectAulas(aulas) {
+            var select = document.querySelector("#select_aulas");
+
+            aulas.map(aula => {
+                var option = document.createElement("option");
+                option.setAttribute("id", aula.id);
+                option.innerText = aula.nombre;
+
+                select.appendChild(option);
+            });
+            
+            const idAula = !idAulaParam
+                ? aulas[0].id
+                : idAulaParam;
+                
+            select.value = document.querySelector("#select_aulas option[id='"+idAula+"']").value; 
+            loadEventos(idAula, createCalendario);
+        }
+
+        function MapToFullCalendarEvent(events) {
+
+            return events.map(evento => {
+                return {
+                    title: evento.nombre,
+                    start: evento.fechaInicio,
+                    end: evento.fechaFin,
+                    allDay: false
+                };
+            });
+        }
         
-        
-    
-        <div>
-            <a href="../index.html" class="btn btn-primary">Home</a>
-        </div>
-        <div>
-            <a href="addevent.html" class="btn btn-primary">Add Event</a>
-        </div>
-        <div class="calendar-style" id='calendar'></div>        
-     
-        <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
-    </body>
+        function goToNuevoEvento(idAula){
+            window.location.href = `addevent.html?idDepartamento=${id}&idAula=${idAula}`;
+        }
+
+        function createCalendario(events) {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                initialView: 'timeGridWeek', //dayGridMonth, resourceTimelineFourDays
+                slotDuration: '00:05',
+                slotMinTime: '08:30:00',
+                slotMaxTime: '20:00:00',
+                allDaySlot: false,
+                events:MapToFullCalendarEvent(events),
+                views: {
+                    resourceTimelineFourDays: {
+                        type: 'resourceTimeline',
+                        duration: {days: 1}
+                    }
+                }
+            });
+
+            calendar.render();
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <div>
+        <a href="../index.html" class="btn btn-primary">Home</a>
+    </div>
+    <div>
+        <button id="add_event" class="btn btn-primary">Add Event</button>
+    </div>
+    <select  class="form-control" id="select_aulas">
+
+    </select>
+    <div class="calendar-style" id='calendar'></div>        
+
+    <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
+</body>
 </html>

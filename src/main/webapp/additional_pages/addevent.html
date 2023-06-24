@@ -14,9 +14,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body>
          <form action="../Servlet" class ="form-event" method="post" enctype="">
            <h1 class= "form__title">Add Event</h1>
+            <input type="hidden" class="form__input" name="iddepartamento" id="iddepartamento">
            <div class="container--flex">
                <label for="" class="form__label">Aule Id</label>
-               <input type="text" class="form__input" name="idaula" required>
+               <input type="text" class="form__input" name="idaula" id="idaula" required>
            </div>
            <div class="container--flex">
                <label for="" class="form__label">Name Event</label>
@@ -74,5 +75,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
          </form> 
         
         <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
+        
+        <script>
+            const idDepartamento = parseInt(new URL(window.location.href).searchParams.get("idDepartamento"));
+            const idAula = parseInt(new URL(window.location.href).searchParams.get("idAula"));
+            
+            window.onload = function(){
+                document.querySelector("#idaula").value = idAula;
+                document.querySelector("#iddepartamento").value = idDepartamento;
+                
+            };
+            
+        </script>
     </body>
 </html>

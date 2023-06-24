@@ -17,25 +17,14 @@
         </form>
         <div class="container">
             <table class="table">
+              <thead>
+                 <tr>
+                    <th>Departamento</th>
+                    <th></th>
+                 </tr>
+              </thead>
               <tbody>
-                <tr>
-                  <td>ATENEO</td>
-                  <td>CLA</td>
-                  <td>COSBE</td>
-                  <td>DICEAA</td>
-                </tr>
-                <tr>
-                  <td>DIIIE</td>
-                  <td>DIIIE</td>
-                  <td>DISCAB</td>
-                  <td>DISIM</td>
-                </tr>
-                <tr>
-                  <td>DSFC</td>
-                  <td>DSU</td>
-                  <td>MESCA</td>
-                  <td>MICROSCOPIA</td>
-                </tr>
+               
               </tbody>
             </table>
         </div>
@@ -43,5 +32,32 @@
          
          <script src="css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
 
+         
+         <script>
+             window.onload = function(){
+                 loadTable(paintTable);
+             };
+             
+             function loadTable(callBack){
+                 fetch("/AuleWeb/DepartamentServlet")
+                    .then(res => res.json())
+                    .then(res => callBack(res));
+             }
+             
+             function paintTable(data){
+                 let rows = "";
+                 data.map((departamento) => {
+                    const td = `<td>${departamento.nombre}</td><td><button onclick="goToCalendar(${departamento.id})"> Ir al calendario</button></td>`;
+                    const tr = `<tr>${td}</tr>`;
+                    rows+= tr;
+                 });
+                document.querySelector(".table tbody").innerHTML = rows; 
+             }
+             
+             function goToCalendar(idDepartamento){
+                 window.location.href = `/AuleWeb/additional_pages/testcalendar.html?id=${idDepartamento}`;
+             }
+             
+         </script>
     </body>
 </html>
