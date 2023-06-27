@@ -6,8 +6,11 @@ package sql;
 
 import java.sql.*;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import com.google.gson.Gson;
+import java.util.HashMap;
+import java.util.TimeZone;
 
 /**
  *
@@ -28,6 +31,8 @@ public class SQLConstructor {
         //readEvents(2, "a", "a", "a", "a@a.com", "2023-06-16T14:30:00", "2023-06-16T15:30:00", "examen", "nula", "1753-01-01T00:00:00" );
         //String valor = new SQLConstructor().exeQueryEventos(2);
         //System.out.println(valor);
+        
+        //getEventsAula(1);
     }
 
     public static void readEvents(int idAula, String nombre, String descripcion, String nombreResponsable, String emailResponsable, String fechaInicio, String fechaFin, String tipo, String recurrencia, String fechaFinRecurrencia) {
@@ -56,6 +61,7 @@ public class SQLConstructor {
 
     public static void exeQuery() {
         String QUERY = "SELECT * FROM eventos";
+        
         // Open a connection
         try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(QUERY);) {
             while (rs.next()) {
@@ -68,7 +74,40 @@ public class SQLConstructor {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    } 
+    
+        /*public static void getEventsAula(int idAula){
+        String QUERY = "SELECT fechaInicio,fechaFin FROM eventos WHERE idAula = " +idAula;
+        
+        // Open a connection
+        try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(QUERY);) {
+            HashMap<Date, Date> dates = new HashMap<>();
+            
+             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss");
+           
+
+            while (rs.next()) {
+                //Display values
+                String fechaInicio = rs.getString("fechaInicio");
+                String fechaFin = rs.getString("fechaFin");
+
+                java.sql.Date sqlDate1 = new java.sql.Date(sdf.parse(fechaInicio));
+                java.sql.Date sqlDate2 = new java.sql.Date(sdf.parse(fechaFin));
+
+                
+                //Date fInicioDate = sdf.parse(fechaInicio);
+                //Date fFinDate = sdf.parse(fechaFin);
+
+                
+                dates.put(fInicioDate, fFinDate);
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    } */
+
 
     public String exeQueryDepartamentos() {
 
@@ -96,6 +135,9 @@ public class SQLConstructor {
         return result;
     }
 
+    
+    
+    
     public String exeQueryAulas(int id) {
 
         String result = "";

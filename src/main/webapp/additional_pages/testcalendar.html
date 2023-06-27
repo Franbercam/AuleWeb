@@ -85,15 +85,38 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             select.value = document.querySelector("#select_aulas option[id='"+idAula+"']").value; 
             loadEventos(idAula, createCalendario);
         }
+       
 
         function MapToFullCalendarEvent(events) {
-
+                
             return events.map(evento => {
+                        
+            let color;
+
+            if (evento.tipo === 'conferencia') {
+                color = '#FF0909';
+            } else if (evento.tipo === 'examen') {
+                color = '#FFD209';
+            } else if (evento.tipo === 'seminario'){
+                color = '#75FF09';
+            }  else if (evento.tipo === 'parcial'){
+                color ='#09FFD2';
+            }else if (evento.tipo === 'mitin'){
+                color = '#094CFF';
+            }else if (evento.tipo === 'graduacion'){
+                color = '#8B09FF';
+            }else if (evento.tipo === 'otros'){
+                color = '#FF09CF'; 
+            } else {
+                color = 'black'; // Cambia esto por el color predeterminado si el tipo no coincide con 'x' ni 'Y'
+            }
+                
                 return {
                     title: evento.nombre,
                     start: evento.fechaInicio,
                     end: evento.fechaFin,
-                    allDay: false
+                    allDay: false,
+                    color: color
                 };
             });
         }

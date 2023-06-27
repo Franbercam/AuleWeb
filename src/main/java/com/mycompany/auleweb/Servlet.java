@@ -4,6 +4,7 @@
  */
 package com.mycompany.auleweb;
 
+import com.sun.java.swing.plaf.windows.resources.windows;
 import java.sql.Connection;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 import sql.SQLConstructor;
 
@@ -59,13 +61,41 @@ public class Servlet extends HttpServlet {
        String des = request.getParameter("description");
        String snom = request.getParameter("staffname");
        String email = request.getParameter("email");
-       String startdate = request.getParameter("startDate");
-       String enddate = request.getParameter("endDate");
+       String date = request.getParameter("Date");
+       String hourStart = request.getParameter("hourStart");
+       String minuteStart = request.getParameter("minuteStart");
+       String hourEnd = request.getParameter("hourEnd");
+       String minuteEnd = request.getParameter("minuteEnd");
        String tipo = request.getParameter("tipo");
        String recu = request.getParameter("recurrencia");
        String ffrecu = request.getParameter("fechafinrecurrencia");
-       System.out.println(nom+idAula+des+snom+email+startdate+enddate+tipo+recu+ffrecu);
-       test.readEvents(idAula,nom,des,snom,email,startdate,enddate,tipo,recu,ffrecu);
+      
+       String T = "T";
+       String dosPuntos = ":";
+       String dosPuntos00 = ":00";
+       
+       //2023-06-28Tstart11:startm30:00
+       
+       String initialDate = date+T+hourStart+dosPuntos+minuteStart+dosPuntos00;
+       String finalDate = date+T+hourEnd+dosPuntos+minuteEnd+dosPuntos00;
+       //"{ \"id\": " + this.id + ", \"nombre\":\"" + this.nombre + "\"}"
+       
+       
+       System.out.println(initialDate);
+
+       //Hay q hacer if para comprar fechas y que no se solapen
+       //LocalDateTime dateTime = LocalDateTime.parse
+       //2023-06-16 T 14:30:00
+       
+       if (Integer.parseInt(hourStart) > Integer.parseInt(hourEnd)){
+        JOptionPane.showMessageDialog(null, "La fecha de inicio debe ser mayor que la fecha fin", "Hey!", JOptionPane.ERROR_MESSAGE);
+        response.sendRedirect("/AuleWeb/additional_pages/testcalendar.html?id="+request.getParameter("iddepartamento")+"&idAula="+idAula);
+           return;
+       } else {
+           test.readEvents(idAula,nom,des,snom,email,initialDate,finalDate, tipo,recu,ffrecu);
+
+       }
+       
        
        response.sendRedirect("/AuleWeb/additional_pages/testcalendar.html?id="+request.getParameter("iddepartamento")+"&idAula="+idAula);
     }
