@@ -51,9 +51,11 @@ public class AulasServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         int id = Integer.parseInt( request.getParameter("id"));
-        String data = new SQLConstructor().exeQueryAulas(id);
+
+        String data = new SQLConstructor().exeQueryAulasId(id);
         PrintWriter out = response.getWriter();
         out.print(data);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

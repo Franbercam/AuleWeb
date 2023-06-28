@@ -25,13 +25,13 @@ public class SQLConstructor {
     public static void main(String[] args) {
 
         //readDataBuildings();
-        //readDataAules();  
+        //readDataAules();
+        //exeQueryAulasId();
         //exeQuery();
         //exeQueryDepartamentos();
         //readEvents(2, "a", "a", "a", "a@a.com", "2023-06-16T14:30:00", "2023-06-16T15:30:00", "examen", "nula", "1753-01-01T00:00:00" );
         //String valor = new SQLConstructor().exeQueryEventos(2);
         //System.out.println(valor);
-        
         //getEventsAula(1);
     }
 
@@ -165,6 +165,44 @@ public class SQLConstructor {
         return result;
     }
     
+        public String exeQueryAulasId(int id) {
+
+        String result = "";
+        String QUERY = "SELECT * FROM aulas WHERE IdEdificios = " + id;
+        // Open a connection
+        try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(QUERY);) {
+            ArrayList<String> aulas = new ArrayList<String>();
+            while (rs.next()) {
+                Aula aula = new Aula(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("descripcion"),
+                        rs.getString("ubicacion"),
+                        rs.getInt("aforo"),
+                        rs.getBoolean("tieneProyector"),
+                        rs.getBoolean("tienePantallaMotorizada"),
+                        rs.getBoolean("tienePantallaManual"),
+                        rs.getBoolean("tieneSisAudio"),
+                        rs.getBoolean("tienePC"),
+                        rs.getBoolean("tieneMicIna"),
+                        rs.getBoolean("tieneMicAla"),
+                        rs.getBoolean("tieneRetroProy"),
+                        rs.getBoolean("tieneWifi")
+                );
+
+                aulas.add(aula.toStringComplete());
+            }
+
+            result = "[" + String.join(",", aulas) + " ]";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result = e.getMessage();
+        }
+
+        return result;
+    }
+    
      public String exeQueryEventos(int id) {
 
         String result = "";
@@ -183,6 +221,40 @@ public class SQLConstructor {
                 );
 
                 eventos.add(evento.toString());
+            }
+
+            result = "[" + String.join(",", eventos) + " ]";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result = e.getMessage();
+        }
+
+        return result;
+    }
+     
+          public String getEventId(int id) {
+
+        String result = "";
+        String QUERY = "SELECT * FROM eventos WHERE id = " + id;
+        // Open a connection
+        try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(QUERY);) {
+            ArrayList<String> eventos = new ArrayList<String>();
+            while (rs.next()) {
+                Evento evento = new Evento(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("descripcion"),
+                        rs.getString("nombreResponsable"),
+                        rs.getString("emailResponsable"),
+                        rs.getString("tipo"),
+                        rs.getString("fechaInicio"),
+                        rs.getString("fechaFin"),
+                        rs.getString("recurrencia"),
+                        rs.getString("fechaFinRecurrencia")
+                );
+
+                eventos.add(evento.toStringComplete());
             }
 
             result = "[" + String.join(",", eventos) + " ]";

@@ -1,0 +1,38 @@
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    
+    <body>
+        
+    </body>
+    
+    
+    <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    // Obtener el valor del parámetro "idEvento"
+    const id = parseInt(new URL(window.location.href).searchParams.get("idEvento"));
+
+    window.onload = function () {
+            loadEventos(paintEvents);
+        };
+    
+    function loadEventos(callback) {
+        fetch(`/AuleWeb/NewServlet}`)
+                .then(res => res.json())
+                .then(res => callBack(res));
+        }
+        
+        function paintEvents(data){
+                 let rows = "";
+                 data.map((evento) => {
+                    const td = `<td>${evento.nombre}</td>`;
+                    const tr = `<tr>${td}</tr>`;
+                    rows+= tr;
+                 });
+                document.querySelector(".table tbody").innerHTML = rows; 
+             }
+
+    console.log("ID del evento en test.html:", id);
+    </script>
+
