@@ -48,6 +48,6 @@ public class Evento {
     }
     
     public String toStringComplete() {
-        return  "{ \"id\": " + this.id + ", \"nombre\":\"" + this.nombre + "\", \"descripcion\":\"" +this.descripcion +"\", \"nombreResponsable\":\"" +this.nombreResponsable +"\", \"emailResponsable\":\"" +this.emailResponsable +"\", \"tipo\":\"" + this.tipo + "\", \"fechaInicio\":\"" + this.fechaInicio.replace(" ", "T") + "\", \"recurrencia\":\"" +this.recurrencia +"\", \"fechaFinRecurrencia\":\"" + this.fechaFinRecurrencia.replace(" ", "T") + "\", \"fechaFin\":\"" + this.fechaFin.replace(" ", "T") + "\" }";
+        return  "{ \"id\": " + this.id + ", \"nombre\":\"" + this.nombre + "\", \"descripcion\":\"" +this.descripcion +"\", \"nombreResponsable\":\"" +this.nombreResponsable +"\", \"emailResponsable\":\"" +this.emailResponsable +"\", \"tipo\":\"" + this.tipo + "\", \"fechaInicio\":\"" + this.fechaInicio + "\", \"recurrencia\":\"" +this.recurrencia +"\", \"fechaFinRecurrencia\":\"" + this.fechaFinRecurrencia + "\", \"fechaFin\":\"" + this.fechaFin + "\" }";
     }
 }

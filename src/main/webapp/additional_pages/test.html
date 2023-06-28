@@ -4,7 +4,13 @@
     </head>
     
     <body>
-        
+        <div class="table">
+  <table>
+    <tbody>
+      <!-- Aquí puedes agregar filas y celdas dentro del tbody si lo deseas -->
+    </tbody>
+  </table>
+</div>
     </body>
     
     
@@ -17,21 +23,58 @@
             loadEventos(paintEvents);
         };
     
-    function loadEventos(callback) {
-        fetch(`/AuleWeb/NewServlet}`)
+    function loadEventos(callBack) {
+        fetch(`/AuleWeb/NewServlet?id=${id}`)
                 .then(res => res.json())
                 .then(res => callBack(res));
         }
         
-        function paintEvents(data){
-                 let rows = "";
-                 data.map((evento) => {
-                    const td = `<td>${evento.nombre}</td>`;
-                    const tr = `<tr>${td}</tr>`;
-                    rows+= tr;
-                 });
-                document.querySelector(".table tbody").innerHTML = rows; 
-             }
+
+function paintEvents(data) {
+    let rows = "";
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Nombre,Descripción,Nombre Responsable,Email Responsable,Tipo,Recurrencia,Fecha de Inicio,Fecha Fin Recurrencia,Fecha de Fin\n";
+
+    data.forEach((evento) => {
+        const row = [
+            evento.nombre,
+            evento.descripcion,
+            evento.nombreResponsable,
+            evento.emailResponsable,
+            evento.tipo,
+            evento.recurrencia,
+            evento.fechaInicio,
+            evento.fechaFinRecurrencia,
+            evento.fechaFin]
+            
+        const tdNombre = `<td><strong>Nombre:</strong> ${evento.nombre}</td>`;
+        const tdDescripcion = `<td><strong>Descripción:</strong> ${evento.descripcion}</td>`;
+        const tdNombreResponsable = `<td><strong>Nombre Responsable:</strong> ${evento.nombreResponsable}</td>`;
+        const tdEmailResponsable = `<td><strong>Email Responsable:</strong> ${evento.emailResponsable}</td>`;
+        const tdTipo = `<td><strong>Tipo:</strong> ${evento.tipo}</td>`;
+        const tdRecurrencia = `<td><strong>Recurrencia:</strong> ${evento.recurrencia}</td>`;
+        const tdFechaInicio = `<td><strong>Fecha de Inicio:</strong> ${evento.fechaInicio}</td>`;
+        const tdFechaFinRecurrencia = `<td><strong>Fecha Fin Recurrencia:</strong> ${evento.fechaFinRecurrencia}</td>`;
+        const tdFechaFin = `<td><strong>Fecha de Fin:</strong> ${evento.fechaFin}</td>`;
+        
+        const tr = `<tr>${tdNombre}</tr><tr>${tdDescripcion}</tr><tr>${tdNombreResponsable}</tr><tr>${tdEmailResponsable}</tr><tr>${tdTipo}</tr><tr>${tdRecurrencia}</tr><tr>${tdFechaInicio}</tr><tr>${tdFechaFinRecurrencia}</tr><tr>${tdFechaFin}</tr>`;
+        rows += tr;
+        ;
+        csvContent += row.join(",") + "\n";
+    });
+
+    document.querySelector(".table tbody").innerHTML = rows;
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "eventos.csv");
+    link.innerHTML = "Descargar CSV";
+    document.body.appendChild(link);
+}
+
+
+
+
 
     console.log("ID del evento en test.html:", id);
     </script>
