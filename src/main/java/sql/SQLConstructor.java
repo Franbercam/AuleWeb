@@ -25,7 +25,7 @@ public class SQLConstructor {
     public static void main(String[] args) {
 
         //readDataBuildings();
-        readDataAules();
+        //readDataAules();
         //exeQueryAulasId();
         //exeQuery();
         //exeQueryDepartamentos();
@@ -33,8 +33,8 @@ public class SQLConstructor {
         //String valor = new SQLConstructor().exeQueryEventos(2);
         //System.out.println(valor);
         //getEventsAula(1);
-        String home = System.getProperty("user.home");
-        generateEventsCSV2(new java.sql.Date(2023, 6, 26), new java.sql.Date(2023, 7, 1), home + "/Downloads/" + "evento" + ".csv");
+        //String home = System.getProperty("user.home");
+        //generateEventsCSV2(new java.sql.Date(2023, 6, 26), new java.sql.Date(2023, 7, 1), home + "/Downloads/" + "evento" + ".csv");
     }
 
     public static void readEvents(int idAula, String nombre, String descripcion, String nombreResponsable, String emailResponsable, String fechaInicio, String fechaFin, String tipo, String recurrencia, String fechaFinRecurrencia) {
@@ -419,49 +419,40 @@ public class SQLConstructor {
 
     }
 
-    public static void readDataAules() {
-    File archivo = null;
+public void readDataAules(File file) {
     FileReader fr = null;
     BufferedReader br = null;
 
-    String linea = null;
-
     try {
-        // Cargamos el archivo de la ruta relativa
-        archivo = new File("src\\main\\webapp\\data\\aulas.csv");
-        // Cargamos el objeto FileReader
-        fr = new FileReader(archivo);
+        // Cargamos el objeto FileReader utilizando el archivo pasado como parámetro
+        fr = new FileReader(file);
         // Creamos un buffer de lectura
         br = new BufferedReader(fr);
 
-        String[] datos = null;
+        String linea = null;
+        List<String> registrosActuales = obtenerRegistrosActuales();
 
         // Leemos hasta que se termine el archivo
-            List<String> registrosActuales = obtenerRegistrosActuales();
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+            System.out.println(datos[0]);
 
-            while ((linea = br.readLine()) != null) {
-                datos = linea.split(";");
-                System.out.println(datos[0]);
-
-                // Verificar si el registro ya existe en la base de datos
-                String idAula = datos[0];
-                if (registroExiste(idAula)) {
-                    System.out.println("El registro con ID " + idAula + " ya existe. Se realizará una actualización en lugar de la inserción.");
-                    actualizarRegistro(datos);
-                } else {
-                    // Insertar el nuevo registro en la base de datos
-                    insertarRegistro(datos);
-                }
-
-                // Remover el registro actual de la lista para los registros que existen en el CSV
-                registrosActuales.remove(idAula);
+            // Verificar si el registro ya existe en la base de datos
+            String idAula = datos[0];
+            if (registroExiste(idAula)) {
+                System.out.println("El registro con ID " + idAula + " ya existe. Se realizará una actualización en lugar de la inserción.");
+                actualizarRegistro(datos);
+            } else {
+                // Insertar el nuevo registro en la base de datos
+                insertarRegistro(datos);
             }
 
-            // Eliminar los registros restantes en la base de datos que no existen en el CSV
-            eliminarRegistrosNoExistentes(registrosActuales);
+            // Remover el registro actual de la lista para los registros que existen en el CSV
+            registrosActuales.remove(idAula);
+        }
 
-            // Eliminar los registros restantes en la base de datos que no existen en el CSV
-            eliminarRegistrosNoExistentes(registrosActuales);
+        // Eliminar los registros restantes en la base de datos que no existen en el CSV
+        eliminarRegistrosNoExistentes(registrosActuales);
 
         System.out.println("Finalizada la actualización del CSV.");
 
