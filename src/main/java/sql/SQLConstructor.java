@@ -10,6 +10,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -436,20 +437,31 @@ public class SQLConstructor {
         String[] datos = null;
 
         // Leemos hasta que se termine el archivo
-        while ((linea = br.readLine()) != null) {
-            datos = linea.split(";");
-            System.out.println(datos[0]);
-            
-            // Verificar si el registro ya existe en la base de datos
-            String idAula = datos[0];
-            if (registroExiste(idAula)) {
-                System.out.println("El registro con ID " + idAula + " ya existe. Se realizará una actualización en lugar de la inserción.");
-                actualizarRegistro(datos);
-            } else {
-                // Insertar el nuevo registro en la base de datos
-                insertarRegistro(datos);
+            List<String> registrosActuales = obtenerRegistrosActuales();
+
+            while ((linea = br.readLine()) != null) {
+                datos = linea.split(";");
+                System.out.println(datos[0]);
+
+                // Verificar si el registro ya existe en la base de datos
+                String idAula = datos[0];
+                if (registroExiste(idAula)) {
+                    System.out.println("El registro con ID " + idAula + " ya existe. Se realizará una actualización en lugar de la inserción.");
+                    actualizarRegistro(datos);
+                } else {
+                    // Insertar el nuevo registro en la base de datos
+                    insertarRegistro(datos);
+                }
+
+                // Remover el registro actual de la lista para los registros que existen en el CSV
+                registrosActuales.remove(idAula);
             }
-        }
+
+            // Eliminar los registros restantes en la base de datos que no existen en el CSV
+            eliminarRegistrosNoExistentes(registrosActuales);
+
+            // Eliminar los registros restantes en la base de datos que no existen en el CSV
+            eliminarRegistrosNoExistentes(registrosActuales);
 
         System.out.println("Finalizada la actualización del CSV.");
 
@@ -467,6 +479,97 @@ public class SQLConstructor {
     }
 }
 
+private static List<String> obtenerRegistrosActuales() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<String> registrosActuales = new ArrayList<>();
+
+        try {
+            // Establecer la conexión a la base de datos
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            // Preparar la consulta SQL para obtener todos los registros actuales
+            String sql = "SELECT id FROM aulas";
+            statement = connection.prepareStatement(sql);
+
+            // Ejecutar la consulta y obtener el resultado
+            resultSet = statement.executeQuery();
+
+            // Agregar los ID de los registros actuales a la lista
+            while (resultSet.next()) {
+                String id = resultSet.getString("id");
+                registrosActuales.add(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar los recursos
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return registrosActuales;
+    }
+
+private static void eliminarRegistrosNoExistentes(List<String> registrosNoExistentes) {
+        Connection connection = null;
+        PreparedStatement statementEventos = null;
+        PreparedStatement statementAulas = null;
+
+        try {
+            // Establecer la conexión a la base de datos
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            // Eliminar los registros de la tabla eventos que corresponden a los registros no existentes
+            String sqlEventos = "DELETE FROM eventos WHERE idAula = ?";
+            statementEventos = connection.prepareStatement(sqlEventos);
+            for (String id : registrosNoExistentes) {
+                statementEventos.setString(1, id);
+                statementEventos.executeUpdate();
+                System.out.println("Eliminando eventos asociados al registro con ID " + id);
+            }
+
+            // Eliminar los registros de la tabla aulas que no existen en el CSV
+            String sqlAulas = "DELETE FROM aulas WHERE id = ?";
+            statementAulas = connection.prepareStatement(sqlAulas);
+            for (String id : registrosNoExistentes) {
+                statementAulas.setString(1, id);
+                statementAulas.executeUpdate();
+                System.out.println("Eliminando registro con ID " + id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar los recursos
+            try {
+                if (statementEventos != null) {
+                    statementEventos.close();
+                }
+                if (statementAulas != null) {
+                    statementAulas.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    
     private static boolean registroExiste(String idAula) {
         Connection connection = null;
         PreparedStatement statement = null;
