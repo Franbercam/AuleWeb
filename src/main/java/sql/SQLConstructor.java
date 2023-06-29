@@ -24,7 +24,7 @@ public class SQLConstructor {
     public static void main(String[] args) {
 
         //readDataBuildings();
-        //readDataAules();
+        readDataAules();
         //exeQueryAulasId();
         //exeQuery();
         //exeQueryDepartamentos();
@@ -419,51 +419,110 @@ public class SQLConstructor {
     }
 
     public static void readDataAules() {
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
 
-        String linea = null;
+    String linea = null;
 
-        try {
+    try {
+        // Cargamos el archivo de la ruta relativa
+        archivo = new File("src\\main\\webapp\\data\\aulas.csv");
+        // Cargamos el objeto FileReader
+        fr = new FileReader(archivo);
+        // Creamos un buffer de lectura
+        br = new BufferedReader(fr);
 
-            //Cargamos el archivo de la ruta relativa
-            archivo = new File("src\\main\\webapp\\data\\aulas.csv");
-            //Cargamos el objeto FileReader
-            fr = new FileReader(archivo);
-            //Creamos un buffer de lectura
-            br = new BufferedReader(fr);
+        String[] datos = null;
 
-            String[] datos = null;
-
-            //Leemos hasta que se termine el archivo
-            while ((linea = br.readLine()) != null) {
-
-                //Utilizamos el separador para los datos
-                datos = linea.split(";");
-                //Presentamos los datos
-                String sql = "INSERT INTO aulas (id, idEdificios, nombre, descripcion, ubicacion, aforo, numEnchufes, red, tieneProyector, tienePantallaMotorizada, tienePantallaManual, tieneSisAudio, tienePC, tieneMicIna, tieneMicAla, tieneRetroProy, tieneWifi) VALUES (" + datos[0] + ",'" + datos[1] + "','" + datos[2] + "','" + datos[3] + "','" + datos[4] + "','" + datos[5] + "','" + datos[6] + "','" + datos[7] + "','" + datos[8] + "','" + datos[9] + "','" + datos[10] + "','" + datos[11] + "','" + datos[12] + "','" + datos[13] + "','" + datos[14] + "','" + datos[15] + "','" + datos[16] + "')";
-                System.out.println(sql);
-                SQLConstructor.insertSql(sql);
-                //stmt.executeUpdate(sql);
-
-            }
-
-            //Capturamos las posibles excepciones
-        } catch (Exception e) {
-            System.out.println("No funciona");
-            e.printStackTrace();
-
-        } finally {
-            try {
-                if (fr != null) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
+        // Leemos hasta que se termine el archivo
+        while ((linea = br.readLine()) != null) {
+            datos = linea.split(";");
+            System.out.println(datos[0]);
+            
+            // Verificar si el registro ya existe en la base de datos
+            String idAula = datos[0];
+            if (registroExiste(idAula)) {
+                System.out.println("El registro con ID " + idAula + " ya existe. Se realizará una actualización en lugar de la inserción.");
+                actualizarRegistro(datos);
+            } else {
+                // Insertar el nuevo registro en la base de datos
+                insertarRegistro(datos);
             }
         }
 
+        System.out.println("Finalizada la actualización del CSV.");
+
+    } catch (Exception e) {
+        System.out.println("Ocurrió un error al actualizar el CSV.");
+        e.printStackTrace();
+    } finally {
+        try {
+            if (fr != null) {
+                fr.close();
+            }
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
     }
+}
+
+    private static boolean registroExiste(String idAula) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establecer la conexión a la base de datos
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            // Preparar la consulta SQL para verificar el registro existente
+            String sql = "SELECT COUNT(*) FROM aulas WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, idAula);
+
+            // Ejecutar la consulta y obtener el resultado
+            resultSet = statement.executeQuery();
+
+            // Verificar si el resultado tiene al menos una fila
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0; // Devuelve true si el registro existe, false de lo contrario
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar los recursos
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false; // Si ocurre algún error, se considera que el registro no existe
+    }
+
+    private static void insertarRegistro(String[] datos) {
+        // Resto del código para insertar el registro en la base de datos
+        String sql = "INSERT INTO aulas (id, idEdificios, nombre, descripcion, ubicacion, aforo, numEnchufes, red, tieneProyector, tienePantallaMotorizada, tienePantallaManual, tieneSisAudio, tienePC, tieneMicIna, tieneMicAla, tieneRetroProy, tieneWifi) VALUES (" + datos[0] + ",'" + datos[1] + "','" + datos[2] + "','" + datos[3] + "','" + datos[4] + "','" + datos[5] + "','" + datos[6] + "','" + datos[7] + "','" + datos[8] + "','" + datos[9] + "','" + datos[10] + "','" + datos[11] + "','" + datos[12] + "','" + datos[13] + "','" + datos[14] + "','" + datos[15] + "','" + datos[16] + "')";
+        System.out.println("Insertando nuevo registro: " + sql);
+        SQLConstructor.insertSql(sql);
+    }
+
+    private static void actualizarRegistro(String[] datos) {
+        // Resto del código para actualizar el registro existente en la base de datos
+        String sql = "UPDATE aulas SET idEdificios = '" + datos[1] + "', nombre = '" + datos[2] + "', descripcion = '" + datos[3] + "', ubicacion = '" + datos[4] + "', aforo = '" + datos[5] + "', numEnchufes = '" + datos[6] + "', red = '" + datos[7] + "', tieneProyector = '" + datos[8] + "', tienePantallaMotorizada = '" + datos[9] + "', tienePantallaManual = '" + datos[10] + "', tieneSisAudio = '" + datos[11] + "', tienePC = '" + datos[12] + "', tieneMicIna = '" + datos[13] + "', tieneMicAla = '" + datos[14] + "', tieneRetroProy = '" + datos[15] + "', tieneWifi = '" + datos[16] + "' WHERE id = " + datos[0];
+        System.out.println("Actualizando registro existente: " + sql);
+        SQLConstructor.insertSql(sql);
+    }
+
 
 }
