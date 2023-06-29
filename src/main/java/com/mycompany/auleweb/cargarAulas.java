@@ -88,13 +88,13 @@ public class cargarAulas extends HttpServlet {
                 }
 
                 // Redireccionar o mostrar una respuesta exitosa
-                JOptionPane.showMessageDialog(null, "Respuesta exitosa", "Hey!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Respuesta exitosa, se ha podido subir el archivo correctamente", "¡PERFECTO!", JOptionPane.INFORMATION_MESSAGE);
                 response.sendRedirect("/AuleWeb/");
             } catch (Exception e) {
                 e.printStackTrace();
                 // Manejar cualquier excepción ocurrida durante el procesamiento del archivo
                 // Redireccionar o mostrar una respuesta de error
-                JOptionPane.showMessageDialog(null, "error", "Hey!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error, no se ha podido insertar el archivo", "Hey!", JOptionPane.ERROR_MESSAGE);
                 response.sendRedirect("/AuleWeb/");
             }
         }

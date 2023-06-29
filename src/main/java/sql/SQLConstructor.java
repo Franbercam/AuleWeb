@@ -176,6 +176,8 @@ public class SQLConstructor {
                         rs.getString("descripcion"),
                         rs.getString("ubicacion"),
                         rs.getInt("aforo"),
+                        rs.getInt("numEnchufes"),
+                        rs.getInt("red"),
                         rs.getBoolean("tieneProyector"),
                         rs.getBoolean("tienePantallaMotorizada"),
                         rs.getBoolean("tienePantallaManual"),
@@ -295,7 +297,6 @@ public class SQLConstructor {
 
                     // Escribir los eventos en el archivo CSV
                     while (rs.next()) {
-                        System.out.println("x");
                         String[] eventoData = {
                             String.valueOf(rs.getInt("id")),
                             rs.getString("nombre"),
@@ -351,6 +352,52 @@ public class SQLConstructor {
                     eventoData.append(escapeCSVValue(rs.getString("fechaFinRecurrencia"))).append("\n");
                     writer.write(eventoData.toString());
                 }
+
+                System.out.println("Archivo CSV generado exitosamente: " + filePath);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+        public static void generateAulas(String filePath) {
+        System.out.println(filePath);
+
+        String QUERY = "SELECT * FROM aulas";
+
+        System.out.println(QUERY);
+        try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  PreparedStatement stmt = conn.prepareStatement(QUERY)) {
+
+            try ( ResultSet rs = stmt.executeQuery();  FileWriter writer = new FileWriter(filePath)) {
+
+                // Escribir el encabezado del archivo CSV
+                writer.write("id,idEdificios,nombre,descripcion,ubicacion,aforo,numEnchufes,red,tieneProyector,tienePantallaMotorizada,"
+                        + "tienePantallaManual,tieneSisAudio,tienePC,tieneMicIna,tieneMicAla,tieneRetroProy,tieneWifi\n");
+    
+
+                // Escribir los eventos en el archivo CSV
+                while (rs.next()) {
+                    StringBuilder eventoData = new StringBuilder();
+                    eventoData.append(rs.getInt("id")).append(";");
+                    eventoData.append(rs.getInt("idEdificios")).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("nombre"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("descripcion"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("ubicacion"))).append(";");
+                    eventoData.append(rs.getInt("aforo")).append(";");
+                    eventoData.append(rs.getInt("numEnchufes")).append(";");
+                    eventoData.append(rs.getInt("red")).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tieneProyector"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tienePantallaMotorizada"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tienePantallaManual"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tieneSisAudio"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tienePC"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tieneMicIna"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tieneMicAla"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tieneRetroProy"))).append(";");
+                    eventoData.append(escapeCSVValue(rs.getString("tieneWifi"))).append("\n");
+                    writer.write(eventoData.toString());
+                }
+                
 
                 System.out.println("Archivo CSV generado exitosamente: " + filePath);
             }
@@ -432,8 +479,17 @@ public void readDataAules(File file) {
         String linea = null;
         List<String> registrosActuales = obtenerRegistrosActuales();
 
+        // Variable para seguir la pista de la primera línea
+        boolean primeraLinea = true;
+
         // Leemos hasta que se termine el archivo
         while ((linea = br.readLine()) != null) {
+            // Saltar la primera línea
+            if (primeraLinea) {
+                primeraLinea = false;
+                continue;
+            }
+
             String[] datos = linea.split(";");
             System.out.println(datos[0]);
 
@@ -461,6 +517,9 @@ public void readDataAules(File file) {
         e.printStackTrace();
     } finally {
         try {
+            if (br != null) {
+                br.close();
+            }
             if (fr != null) {
                 fr.close();
             }

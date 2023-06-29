@@ -14,6 +14,8 @@ public class Aula {
     public String descripcion;
     public String ubicacion;
     public int aforo;
+    public int numEnchufes;
+    public int red;
     public Boolean tieneProyector;
     public Boolean tienePantallaMotorizada;
     public Boolean tienePantallaManual;
@@ -30,13 +32,15 @@ public class Aula {
         this.aforo = aforo;
     }
     
-    public Aula(int id, String nombre, String descripcion, String ubicacion, int aforo, Boolean tieneProyector, Boolean tienePantallaMotorizada, Boolean tienePantallaManual, Boolean tieneSisAudio, 
+    public Aula(int id, String nombre, String descripcion, String ubicacion, int aforo,int numEnchufes,int red, Boolean tieneProyector, Boolean tienePantallaMotorizada, Boolean tienePantallaManual, Boolean tieneSisAudio, 
             Boolean tienePC, Boolean tieneMicIna, Boolean tieneMicAla, Boolean tieneRetroProy, Boolean tieneWifi){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion;
         this.aforo = aforo;
+        this.numEnchufes = numEnchufes;
+        this.red = red;
         this.tieneProyector = tieneProyector;
         this.tienePantallaMotorizada = tienePantallaMotorizada;
         this.tienePantallaManual = tienePantallaManual;
@@ -55,7 +59,8 @@ public class Aula {
     }
     
     public String toStringComplete() {
-        return  "{ \"id\": " + this.id + ", \"nombre\":\"" + this.nombre + "\", \"descripcion\":\"" + this.descripcion + "\",  \"ubicacion\":\"" + this.ubicacion + "\", \"aforo\": " + this.aforo + ", \"tieneProyector\":\"" + this.tieneProyector + "\","
+        return  "{ \"id\": " + this.id + ", \"nombre\":\"" + this.nombre + "\", \"descripcion\":\"" + this.descripcion + "\",  \"ubicacion\":\"" + this.ubicacion + "\", \"aforo\": " + this.aforo + ","
+                + " \"numEnchufes\": " + this.numEnchufes + ", \"red\": " + this.red + ", \"tieneProyector\":\"" + this.tieneProyector + "\","
             + " \"tienePantallaMotorizada\":\"" + this.tienePantallaMotorizada + "\", \"tienePantallaManual\":\"" + this.tienePantallaManual + "\", \"tieneSisAudio\":\"" + this.tieneSisAudio + "\","
             + " \"tienePC\":\"" + this.tienePC + "\", \"tieneMicIna\":\"" + this.tieneMicIna + "\", \"tieneMicAla\":\"" + this.tieneMicAla + "\", \"tieneRetroProy\":\"" + this.tieneRetroProy + "\",\"tieneWifi\":\"" + this.tieneWifi + "\"}";
     }

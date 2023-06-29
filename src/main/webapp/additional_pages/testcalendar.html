@@ -13,6 +13,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='../js/fullcalendar/index.global.min.js'></script>
     <script src='../js/fullcalendar-sheduler/index.global.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    
     <script>
         const id = parseInt(new URL(window.location.href).searchParams.get("id"));
         const idAulaParam = parseInt(new URL(window.location.href).searchParams.get("idAula"));
@@ -21,20 +24,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         window.onload = function () {
             declareListeners();
             loadAulas(loadSelectAulas);
-            //loadAulas(loadSelectAulas(paintDataAulas));
         };
-
-
-        /*setTimeout(() => {
-         calendar.addEvent({
-         title: '',
-         start: '2023-06-25T16:30:00',
-         end: '2023-06-25T18:30:00',
-         allDay: false // will make the time show
-         }
-         );
-         
-         }, 5000);*/
 
         function declareListeners() {
             document.querySelector("#select_aulas").addEventListener("change", function () {
@@ -90,6 +80,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 option.setAttribute("descripcion", aula.descripcion);
                 option.setAttribute("ubicacion", aula.ubicacion);
                 option.setAttribute("aforo", aula.aforo);
+                option.setAttribute("numEnchufes", aula.numEnchufes);
+                option.setAttribute("red", aula.red);
                 option.setAttribute("tieneProyector", aula.tieneProyector);
                 option.setAttribute("tienePantallaMotorizada", aula.tienePantallaMotorizada);
                 option.setAttribute("tienePantallaManual", aula.tienePantallaManual);
@@ -115,39 +107,48 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         }
         
     function paintDetalleAula(option) {
-        const descripcion = option.getAttribute("descripcion");
-        const tieneProyector = option.getAttribute("tieneproyector");
-        const nombre = option.getAttribute("nombre");
-        const aforo = option.getAttribute("aforo");
-        const ubicacion = option.getAttribute("ubicacion");
-        const tienePantallaMotorizada = option.getAttribute("tienepantallamotorizada");
-        const tienPantallaManual = option.getAttribute("tienepantallamanual");
-        const tieneSisAudio = option.getAttribute("tienesisaudio");
-        const tienePC = option.getAttribute("tienepc");
-        const tieneMicIna = option.getAttribute("tienemicina");
-        const tieneMicAla = option.getAttribute("tienemicala");
-        const tieneRetroProy = option.getAttribute("tieneretroproy");
-        const tieneWifi = option.getAttribute("tienewifi");
+      const descripcion = option.getAttribute("descripcion");
+      const tieneProyector = option.getAttribute("tieneproyector");
+      const nombre = option.getAttribute("nombre");
+      const aforo = option.getAttribute("aforo");
+      const enchufes = option.getAttribute("numenchufes");
+      const red = option.getAttribute("red");
+      const ubicacion = option.getAttribute("ubicacion");
+      const tienePantallaMotorizada = option.getAttribute("tienepantallamotorizada");
+      const tienPantallaManual = option.getAttribute("tienepantallamanual");
+      const tieneSisAudio = option.getAttribute("tienesisaudio");
+      const tienePC = option.getAttribute("tienepc");
+      const tieneMicIna = option.getAttribute("tienemicina");
+      const tieneMicAla = option.getAttribute("tienemicala");
+      const tieneRetroProy = option.getAttribute("tieneretroproy");
+      const tieneWifi = option.getAttribute("tienewifi");
 
-        const siNoMapper = (value) => (value === "true" ? "si" : "no");
+      const siNoMapper = (value) => (value === "true" ? "si" : "no");
 
-        document.getElementById("nombre_aula").innerHTML = "<b>Nombre del aula:</b> " + siNoMapper(tieneProyector);
-        document.getElementById("descripcion_aula").innerHTML = "<b>Descripción del aula:</b> " + descripcion;
-        document.getElementById("aforo_aula").innerHTML = "<b>Aforo del aula:</b> " + aforo;
-        document.getElementById("ubicacion_aula").innerHTML = "<b>Ubicación del aula:</b> " + ubicacion;
-        document.getElementById("tiene_proyector").innerHTML = "<b>¿Tiene proyector?:</b> " + siNoMapper(tieneProyector);
-        document.getElementById("tiene_pantalla_manual").innerHTML = "<b>¿Tiene pantalla manual?:</b> " + siNoMapper(tienPantallaManual);
-        document.getElementById("tiene_pantalla_motorizada").innerHTML = "<b>¿Tiene pantalla motorizada?:</b> " + siNoMapper(tienePantallaMotorizada);
-        document.getElementById("tiene_pc").innerHTML = "<b>¿Tiene PC?:</b> " + siNoMapper(tienePC);
-        document.getElementById("tiene_sis_audio").innerHTML = "<b>¿Tiene sistema de audio?:</b> " + siNoMapper(tieneSisAudio);
-        document.getElementById("tiene_mic_ina").innerHTML = "<b>¿Tiene micrófono inalámbrico?:</b> " + siNoMapper(tieneMicIna);
-        document.getElementById("tiene_mic_ala").innerHTML = "<b>¿Tiene micrófono alámbrico?:</b> " + siNoMapper(tieneMicAla);
-        document.getElementById("tiene_retro_proy").innerHTML = "<b>¿Tiene retroproyector?:</b> " + siNoMapper(tieneRetroProy);
-        document.getElementById("tiene_wifi").innerHTML = "<b>¿Tiene WIFI?:</b> " + siNoMapper(tieneWifi);
+      document.getElementById("nombre_aula").innerHTML = "<b>Nombre del aula:</b> " + nombre;
+      document.getElementById("descripcion_aula").innerHTML = "<b>Descripción del aula:</b> " + descripcion;
+      document.getElementById("aforo_aula").innerHTML = "<b>Aforo del aula:</b> " + aforo;
+      document.getElementById("enchufes_aula").innerHTML = "<b>Numero de enchufes:</b> " + enchufes;
+      document.getElementById("red_aula").innerHTML = "<b>Tomas de red:</b> " + red;
+      const ubicacionAulaElemento = document.getElementById("ubicacion_aula");
 
+        // Redireccion en otra pestaña de la ubicacion
+        const enlace = document.createElement("a");
+        enlace.href = ubicacion;
+        enlace.target = "_blank";
+        enlace.textContent = "Ubicación";
+        ubicacionAulaElemento.appendChild(enlace);
+
+      document.getElementById("tiene_proyector").innerHTML = "<b>¿Tiene proyector?:</b> " + siNoMapper(tieneProyector);
+      document.getElementById("tiene_pantalla_manual").innerHTML = "<b>¿Tiene pantalla manual?:</b> " + siNoMapper(tienPantallaManual);
+      document.getElementById("tiene_pantalla_motorizada").innerHTML = "<b>¿Tiene pantalla motorizada?:</b> " + siNoMapper(tienePantallaMotorizada);
+      document.getElementById("tiene_pc").innerHTML = "<b>¿Tiene PC?:</b> " + siNoMapper(tienePC);
+      document.getElementById("tiene_sis_audio").innerHTML = "<b>¿Tiene sistema de audio?:</b> " + siNoMapper(tieneSisAudio);
+      document.getElementById("tiene_mic_ina").innerHTML = "<b>¿Tiene micrófono inalámbrico?:</b> " + siNoMapper(tieneMicIna);
+      document.getElementById("tiene_mic_ala").innerHTML = "<b>¿Tiene micrófono alámbrico?:</b> " + siNoMapper(tieneMicAla);
+      document.getElementById("tiene_retro_proy").innerHTML = "<b>¿Tiene retroproyector?:</b> " + siNoMapper(tieneRetroProy);
+      document.getElementById("tiene_wifi").innerHTML = "<b>¿Tiene WIFI?:</b> " + siNoMapper(tieneWifi);
     }
-
-
 
         function MapToFullCalendarEvent(events) {
 
@@ -216,6 +217,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
     </script>
 
+
 </head>
 
 <body>
@@ -234,6 +236,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <p id="descripcion_aula"></p>
     <p id="ubicacion_aula"></p>
     <p id="aforo_aula"></p>
+    <p id="enchufes_aula"></p>
+    <p id="red_aula"></p>
     <p id="tiene_proyector"></p>
     <p id="tiene_pantalla_motorizada"></p>
     <p id="tiene_pantalla_manual"></p>
