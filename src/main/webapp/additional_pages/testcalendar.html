@@ -40,22 +40,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             document.querySelector("#select_aulas").addEventListener("change", function () {
                 const aulaId = this.options[this.selectedIndex].getAttribute("id");
                 
+
+                
                 loadEventos(aulaId, createCalendario);
+                paintDetalleAula(this.options[this.selectedIndex]);
+               
             });
-            
-            document.querySelector("#add_event").addEventListener("click", function(){
+
+            document.querySelector("#add_event").addEventListener("click", function () {
                 const select = document.querySelector("#select_aulas");
                 const aulaId = select.options[select.selectedIndex].getAttribute("id");
-                
-                
-                if(!aulaId){
+
+
+                if (!aulaId) {
                     alert("Seleccione un aula");
                     return;
                 }
-                
+
                 goToNuevoEvento(aulaId);
 
-                
+
             });
         }
         function loadAulas(callBack) {
@@ -69,72 +73,106 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     .then(res => res.json())
                     .then(res => callBack(res));
         }
-        
+
         function loadDataAulas(idAula, callBack) {
             fetch(`/AuleWeb/EventosServlet?id=${idAula}`)
                     .then(res => res.json())
                     .then(res => callBack(res));
         }
-    
-    function loadSelectAulas(aulas) {
-        var select = document.querySelector("#select_aulas");
 
-        aulas.map(aula => {
-            var option = document.createElement("option");
-            option.setAttribute("id", aula.id);
-            option.innerText = aula.nombre;
+        function loadSelectAulas(aulas) {
+            var select = document.querySelector("#select_aulas");
 
-            select.appendChild(option);
-        });
+            aulas.map(aula => {
+                var option = document.createElement("option");
+                option.setAttribute("id", aula.id);         
+                option.setAttribute("nombre", aula.nombre);
+                option.setAttribute("descripcion", aula.descripcion);
+                option.setAttribute("ubicacion", aula.ubicacion);
+                option.setAttribute("aforo", aula.aforo);
+                option.setAttribute("tieneProyector", aula.tieneProyector);
+                option.setAttribute("tienePantallaMotorizada", aula.tienePantallaMotorizada);
+                option.setAttribute("tienePantallaManual", aula.tienePantallaManual);
+                option.setAttribute("tieneSisAudio", aula.tieneSisAudio);
+                option.setAttribute("tienePC", aula.tienePC);
+                option.setAttribute("tieneMicIna", aula.tieneMicIna);
+                option.setAttribute("tieneMicAla", aula.tieneMicAla);
+                option.setAttribute("tieneRetroProy", aula.tieneRetroProy);
+                option.setAttribute("tieneWifi", aula.tieneWifi);
+                option.innerText = aula.nombre;
 
-        const idAula = !idAulaParam ? aulas[0].id : idAulaParam;
-                
-        select.addEventListener('change', function() {
-            // Obtener el valor seleccionado
-            const valorSeleccionado = select.value;
-            console.log("Se ha cambiado");
-            console.log(valorSeleccionado);
-            // Actualizar el innerText del elemento
-          });
+                select.appendChild(option);
+            });
+
+            const idAula = !idAulaParam
+                    ? aulas[0].id
+                    : idAulaParam;
+
+            const option =  document.querySelector("#select_aulas option[id='" + idAula + "']")
+            select.value = option.value;
+            loadEventos(idAula, createCalendario);
+            paintDetalleAula(option);
+        }
         
-        console.log(aulas);
-        select.value = document.querySelector("#select_aulas option[id='"+idAula+"']").value; 
-        loadEventos(idAula, createCalendario);
-        
-        // Obtener el objeto aula seleccionado
-        //const aulaSeleccionada = aulas.find(aula => aula.id === idAula);
+    function paintDetalleAula(option) {
+        const descripcion = option.getAttribute("descripcion");
+        const tieneProyector = option.getAttribute("tieneproyector");
+        const nombre = option.getAttribute("nombre");
+        const aforo = option.getAttribute("aforo");
+        const ubicacion = option.getAttribute("ubicacion");
+        const tienePantallaMotorizada = option.getAttribute("tienepantallamotorizada");
+        const tienPantallaManual = option.getAttribute("tienepantallamanual");
+        const tieneSisAudio = option.getAttribute("tienesisaudio");
+        const tienePC = option.getAttribute("tienepc");
+        const tieneMicIna = option.getAttribute("tienemicina");
+        const tieneMicAla = option.getAttribute("tienemicala");
+        const tieneRetroProy = option.getAttribute("tieneretroproy");
+        const tieneWifi = option.getAttribute("tienewifi");
 
-        // Actualizar la descripción y si tiene proyector
-        //document.getElementById("descripcion_aula").innerText = aulas[0].descripcion;
-        //document.getElementById("tiene_proyector").innerText = aulas[0].tieneProyector;
+        const siNoMapper = (value) => (value === "true" ? "si" : "no");
+
+        document.getElementById("nombre_aula").innerHTML = "<b>Nombre del aula:</b> " + siNoMapper(tieneProyector);
+        document.getElementById("descripcion_aula").innerHTML = "<b>Descripción del aula:</b> " + descripcion;
+        document.getElementById("aforo_aula").innerHTML = "<b>Aforo del aula:</b> " + aforo;
+        document.getElementById("ubicacion_aula").innerHTML = "<b>Ubicación del aula:</b> " + ubicacion;
+        document.getElementById("tiene_proyector").innerHTML = "<b>¿Tiene proyector?:</b> " + siNoMapper(tieneProyector);
+        document.getElementById("tiene_pantalla_manual").innerHTML = "<b>¿Tiene pantalla manual?:</b> " + siNoMapper(tienPantallaManual);
+        document.getElementById("tiene_pantalla_motorizada").innerHTML = "<b>¿Tiene pantalla motorizada?:</b> " + siNoMapper(tienePantallaMotorizada);
+        document.getElementById("tiene_pc").innerHTML = "<b>¿Tiene PC?:</b> " + siNoMapper(tienePC);
+        document.getElementById("tiene_sis_audio").innerHTML = "<b>¿Tiene sistema de audio?:</b> " + siNoMapper(tieneSisAudio);
+        document.getElementById("tiene_mic_ina").innerHTML = "<b>¿Tiene micrófono inalámbrico?:</b> " + siNoMapper(tieneMicIna);
+        document.getElementById("tiene_mic_ala").innerHTML = "<b>¿Tiene micrófono alámbrico?:</b> " + siNoMapper(tieneMicAla);
+        document.getElementById("tiene_retro_proy").innerHTML = "<b>¿Tiene retroproyector?:</b> " + siNoMapper(tieneRetroProy);
+        document.getElementById("tiene_wifi").innerHTML = "<b>¿Tiene WIFI?:</b> " + siNoMapper(tieneWifi);
 
     }
-       
+
+
 
         function MapToFullCalendarEvent(events) {
-                
-            return events.map(evento => {
-                        
-            let color;
 
-            if (evento.tipo === 'conferencia') {
-                color = '#FF0909';
-            } else if (evento.tipo === 'examen') {
-                color = '#FFD209';
-            } else if (evento.tipo === 'seminario'){
-                color = '#75FF09';
-            }  else if (evento.tipo === 'parcial'){
-                color ='#09FFD2';
-            }else if (evento.tipo === 'mitin'){
-                color = '#094CFF';
-            }else if (evento.tipo === 'graduacion'){
-                color = '#8B09FF';
-            }else if (evento.tipo === 'otros'){
-                color = '#FF09CF'; 
-            } else {
-                color = 'black'; // Cambia esto por el color predeterminado si el tipo no coincide con 'x' ni 'Y'
-            }
-                
+            return events.map(evento => {
+
+                let color;
+
+                if (evento.tipo === 'conferencia') {
+                    color = '#FF0909';
+                } else if (evento.tipo === 'examen') {
+                    color = '#FFD209';
+                } else if (evento.tipo === 'seminario') {
+                    color = '#75FF09';
+                } else if (evento.tipo === 'parcial') {
+                    color = '#09FFD2';
+                } else if (evento.tipo === 'mitin') {
+                    color = '#094CFF';
+                } else if (evento.tipo === 'graduacion') {
+                    color = '#8B09FF';
+                } else if (evento.tipo === 'otros') {
+                    color = '#FF09CF';
+                } else {
+                    color = 'black'; // Cambia esto por el color predeterminado si el tipo no coincide con 'x' ni 'Y'
+                }
+
                 return {
                     id: evento.id,
                     title: evento.nombre,
@@ -145,8 +183,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 };
             });
         }
-        
-        function goToNuevoEvento(idAula){
+
+        function goToNuevoEvento(idAula) {
             window.location.href = `addevent.html?idDepartamento=${id}&idAula=${idAula}`;
         }
 
@@ -159,12 +197,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 slotMinTime: '08:30:00',
                 slotMaxTime: '20:00:00',
                 allDaySlot: false,
-                events:MapToFullCalendarEvent(events),
-                eventClick: function(info) {
+                events: MapToFullCalendarEvent(events),
+                eventClick: function (info) {
                     var eventId = info.event.id;
                     console.log("ID del evento:", eventId);
                     window.location.href = `test.html?idDepartamento=${id}&idEvento=${eventId}&idEvento=${eventId}`;
-                  },
+                },
                 views: {
                     resourceTimelineFourDays: {
                         type: 'resourceTimeline',
@@ -192,9 +230,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </select>
     <div class="calendar-style" id='calendar'></div>    
     
+    <p id="nombre_aula"></p>
     <p id="descripcion_aula"></p>
+    <p id="ubicacion_aula"></p>
+    <p id="aforo_aula"></p>
     <p id="tiene_proyector"></p>
+    <p id="tiene_pantalla_motorizada"></p>
+    <p id="tiene_pantalla_manual"></p>
+    <p id="tiene_sis_audio"></p>
+    <p id="tiene_pc"></p>
+    <p id="tiene_mic_ina"></p>
+    <p id="tiene_mic_ala"></p>
+    <p id="tiene_retro_proy"></p>
+    <p id="tiene_wifi"></p>
     
+
+    <form action="../CompareDate" class ="form-events-csv" method="post">
+        <label for="fecha-inicial">Fecha inicial:</label>
+        <input type="date" id="fecha-inicial" name="fecha-inicial">
+
+        <label for="fecha-final">Fecha final:</label>
+        <input type="date" id="fecha-final" name="fecha-final">
+
+        <input type="submit" value="Enviar">
+    </form>
+
     <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
 </body>
 </html>

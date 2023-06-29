@@ -51,7 +51,7 @@ public class EventosServlet extends HttpServlet {
         
         int id = Integer.parseInt( request.getParameter("id"));
         System.out.println(id);
-        String data = new SQLConstructor().exeQueryEventos(1);
+        String data = new SQLConstructor().exeQueryEventos(id);
         PrintWriter out = response.getWriter();
                 
         out.print(data);

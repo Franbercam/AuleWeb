@@ -4,13 +4,12 @@
  */
 package sql;
 
+import com.opencsv.CSVWriter;
 import java.sql.*;
 import java.io.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TimeZone;
+import java.util.Calendar;
 
 /**
  *
@@ -33,6 +32,8 @@ public class SQLConstructor {
         //String valor = new SQLConstructor().exeQueryEventos(2);
         //System.out.println(valor);
         //getEventsAula(1);
+        String home = System.getProperty("user.home");
+        generateEventsCSV2(new java.sql.Date(2023, 6, 26), new java.sql.Date(2023, 7, 1), home + "/Downloads/" + "evento" + ".csv");
     }
 
     public static void readEvents(int idAula, String nombre, String descripcion, String nombreResponsable, String emailResponsable, String fechaInicio, String fechaFin, String tipo, String recurrencia, String fechaFinRecurrencia) {
@@ -61,7 +62,7 @@ public class SQLConstructor {
 
     public static void exeQuery() {
         String QUERY = "SELECT * FROM eventos";
-        
+
         // Open a connection
         try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(QUERY);) {
             while (rs.next()) {
@@ -74,9 +75,9 @@ public class SQLConstructor {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    } 
-    
-        /*public static void getEventsAula(int idAula){
+    }
+
+    /*public static void getEventsAula(int idAula){
         String QUERY = "SELECT fechaInicio,fechaFin FROM eventos WHERE idAula = " +idAula;
         
         // Open a connection
@@ -107,8 +108,6 @@ public class SQLConstructor {
             e.printStackTrace();
         }
     } */
-
-
     public String exeQueryDepartamentos() {
 
         String result = "";
@@ -135,9 +134,6 @@ public class SQLConstructor {
         return result;
     }
 
-    
-    
-    
     public String exeQueryAulas(int id) {
 
         String result = "";
@@ -164,8 +160,8 @@ public class SQLConstructor {
 
         return result;
     }
-    
-        public String exeQueryAulasId(int id) {
+
+    public String exeQueryAulasId(int id) {
 
         String result = "";
         String QUERY = "SELECT * FROM aulas WHERE IdEdificios = " + id;
@@ -202,8 +198,8 @@ public class SQLConstructor {
 
         return result;
     }
-    
-     public String exeQueryEventos(int id) {
+
+    public String exeQueryEventos(int id) {
 
         String result = "";
         String QUERY = "SELECT * FROM eventos WHERE idAula = " + id;
@@ -232,8 +228,8 @@ public class SQLConstructor {
 
         return result;
     }
-     
-          public String getEventId(int id) {
+
+    public String getEventId(int id) {
 
         String result = "";
         String QUERY = "SELECT * FROM eventos WHERE id = " + id;
@@ -265,6 +261,111 @@ public class SQLConstructor {
         }
 
         return result;
+    }
+
+    private static String FormatFecha(Date fecha) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        String strFecha = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
+
+        return strFecha;
+    }
+
+    public static void generateEventsCSV(Date fechaInicio, Date fechaFin, String filePath) {
+        System.out.println(filePath);
+
+        String QUERY = "SELECT * FROM eventos WHERE fechaInicio >=  '"
+                + FormatFecha(fechaInicio)
+                + "' AND fechaFin <= '"
+                + FormatFecha(fechaFin) + "'";
+        try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  PreparedStatement stmt = conn.prepareStatement(QUERY)) {
+
+            System.out.println(QUERY);
+            try ( ResultSet rs = stmt.executeQuery()) {
+
+                // Crear el escritor CSV
+                try ( CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
+                    // Escribir el encabezado del archivo CSV
+                    writer.writeNext(new String[]{"id", "nombre", "descripcion", "nombreResponsable", "emailResponsable", "tipo", "fechaInicio", "fechaFin", "recurrencia", "fechaFinRecurrencia"});
+
+                    // Escribir los eventos en el archivo CSV
+                    while (rs.next()) {
+                        System.out.println("x");
+                        String[] eventoData = {
+                            String.valueOf(rs.getInt("id")),
+                            rs.getString("nombre"),
+                            rs.getString("descripcion"),
+                            rs.getString("nombreResponsable"),
+                            rs.getString("emailResponsable"),
+                            rs.getString("tipo"),
+                            rs.getString("fechaInicio"),
+                            rs.getString("fechaFin"),
+                            rs.getString("recurrencia"),
+                            rs.getString("fechaFinRecurrencia")
+                        };
+                        writer.writeNext(eventoData);
+                    }
+                }
+            }
+
+            System.out.println("Archivo CSV generado exitosamente: " + filePath);
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void generateEventsCSV2(Date fechaInicio, Date fechaFin, String filePath) {
+        System.out.println(filePath);
+
+        String QUERY = "SELECT * FROM eventos WHERE fechaInicio >=  '"
+                + FormatFecha(fechaInicio)
+                + "' AND fechaFin <= '"
+                + FormatFecha(fechaFin) + "'";
+
+        System.out.println(QUERY);
+        try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  PreparedStatement stmt = conn.prepareStatement(QUERY)) {
+
+            try ( ResultSet rs = stmt.executeQuery();  FileWriter writer = new FileWriter(filePath)) {
+
+                // Escribir el encabezado del archivo CSV
+                writer.write("id,nombre,descripcion,nombreResponsable,emailResponsable,tipo,fechaInicio,fechaFin,recurrencia,fechaFinRecurrencia\n");
+    
+
+                // Escribir los eventos en el archivo CSV
+                while (rs.next()) {
+                    StringBuilder eventoData = new StringBuilder();
+                    eventoData.append(rs.getInt("id")).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("nombre"))).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("descripcion"))).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("nombreResponsable"))).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("emailResponsable"))).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("tipo"))).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("fechaInicio"))).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("fechaFin"))).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("recurrencia"))).append(",");
+                    eventoData.append(escapeCSVValue(rs.getString("fechaFinRecurrencia"))).append("\n");
+                    writer.write(eventoData.toString());
+                }
+
+                System.out.println("Archivo CSV generado exitosamente: " + filePath);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String escapeCSVValue(String value) {
+        if (value == null) {
+            return "";
+        }
+        if (value.contains(",")) {
+            value = "\"" + value + "\"";
+        }
+        return value;
     }
 
     public static void readDataBuildings() {

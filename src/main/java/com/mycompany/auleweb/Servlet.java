@@ -73,24 +73,24 @@ public class Servlet extends HttpServlet {
        String T = "T";
        String dosPuntos = ":";
        String dosPuntos00 = ":00";
-       
-       //2023-06-28Tstart11:startm30:00
-       
+              
        String initialDate = date+T+hourStart+dosPuntos+minuteStart+dosPuntos00;
-       String finalDate = date+T+hourEnd+dosPuntos+minuteEnd+dosPuntos00;
-       //"{ \"id\": " + this.id + ", \"nombre\":\"" + this.nombre + "\"}"
-       
+       String finalDate = date+T+hourEnd+dosPuntos+minuteEnd+dosPuntos00;       
        
        System.out.println(initialDate);
 
        //Hay q hacer if para comprar fechas y que no se solapen
-       //LocalDateTime dateTime = LocalDateTime.parse
-       //2023-06-16 T 14:30:00
+
        
        if (Integer.parseInt(hourStart) > Integer.parseInt(hourEnd)){
         JOptionPane.showMessageDialog(null, "La fecha de inicio debe ser mayor que la fecha fin", "Hey!", JOptionPane.ERROR_MESSAGE);
         response.sendRedirect("/AuleWeb/additional_pages/testcalendar.html?id="+request.getParameter("iddepartamento")+"&idAula="+idAula);
            return;
+       } else if (Integer.parseInt(hourStart) == 8 && Integer.parseInt(minuteStart) < 30) {
+           JOptionPane.showMessageDialog(null, "El primer evento que se puede añadir es a partir de las 08:30h", "Hey!", JOptionPane.ERROR_MESSAGE);
+           response.sendRedirect("/AuleWeb/additional_pages/testcalendar.html?id="+request.getParameter("iddepartamento")+"&idAula="+idAula);
+           return;
+           
        } else {
            test.readEvents(idAula,nom,des,snom,email,initialDate,finalDate, tipo,recu,ffrecu);
 

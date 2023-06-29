@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +35,7 @@ public class NewServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.text.ParseException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,6 +54,7 @@ public class NewServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         int id = Integer.parseInt( request.getParameter("id"));
+        
         System.out.println(id);
         String data = new SQLConstructor().getEventId(id);
         PrintWriter out = response.getWriter();
