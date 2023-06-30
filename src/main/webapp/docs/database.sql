@@ -17,7 +17,7 @@ aforo INT NOT NULL,
 numEnchufes INT NOT NULL,
 red INT NOT NULL,
 tieneProyector BOOLEAN DEFAULT false,
-tienePantallaMorotizada BOOLEAN DEFAULT false,
+tienePantallaMotorizada BOOLEAN DEFAULT false,
 tienePantallaManual BOOLEAN DEFAULT false,
 tieneSisAudio BOOLEAN DEFAULT false,
 tienePC BOOLEAN DEFAULT false,
@@ -39,7 +39,7 @@ fechaInicio DATETIME NOT NULL,
 fechaFin DATETIME NOT NULL,
 tipo ENUM('conferencia','examen','seminario','parcial','meeting','graduacion','otro') NOT NULL,
 recurrencia ENUM('diaria','semanal','mensual','nula') NOT NULL,
-fechaFinRecurrencia DATETIME,
+fechaFinRecurrencia DATETIME DEFAULT '1900-01-01 00:00:00',
 FOREIGN KEY (idAula) REFERENCES aulas(id)
 );
 

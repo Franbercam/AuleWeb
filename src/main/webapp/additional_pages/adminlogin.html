@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Login as Admin</title>
+        <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="../css/adminlogin.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+            
+        
+            
+            <div class="login_box">
+                <h3>Login in</h3>          
+            
+            
+            <div class = "cont-login_form">
+                <form action="" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                  </div>
+                  <button id="button" type="submit" class="btn btn-primary">Log in</button>
+                </form>
+            </div>
+            </div>
+        
+        
+        <script> 
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const button = document.getElementById('button');
+        
+        button.addEventListener('click',(e) =>{
+            e.preventDefault();
+            const data = {
+                email: email.value,
+                password: password.value
+            };
+            
+            console.log(data);
+        });
+        </script>
+        
+    
+</html>
