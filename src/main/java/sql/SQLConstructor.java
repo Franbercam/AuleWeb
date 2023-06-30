@@ -4,7 +4,6 @@
  */
 package sql;
 
-import com.opencsv.CSVWriter;
 import java.sql.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -29,7 +28,7 @@ public class SQLConstructor {
         //exeQueryAulasId();
         //exeQuery();
         //exeQueryDepartamentos();
-        //readEvents(2, "a", "a", "a", "a@a.com", "2023-06-16T14:30:00", "2023-06-16T15:30:00", "examen", "nula", "1753-01-01T00:00:00" );
+        readEvents(2, "a", "a", "a", "a@a.com", "2023-06-16T14:30:00", "2023-06-16T15:30:00", "examen", "nula", "1753-01-01T00:00:00" );
         //String valor = new SQLConstructor().exeQueryEventos(2);
         //System.out.println(valor);
         //getEventsAula(1);
@@ -278,47 +277,7 @@ public class SQLConstructor {
         return strFecha;
     }
 
-    public static void generateEventsCSV(Date fechaInicio, Date fechaFin, String filePath) {
-        System.out.println(filePath);
-
-        String QUERY = "SELECT * FROM eventos WHERE fechaInicio >=  '"
-                + FormatFecha(fechaInicio)
-                + "' AND fechaFin <= '"
-                + FormatFecha(fechaFin) + "'";
-        try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  PreparedStatement stmt = conn.prepareStatement(QUERY)) {
-
-            System.out.println(QUERY);
-            try ( ResultSet rs = stmt.executeQuery()) {
-
-                // Crear el escritor CSV
-                try ( CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
-                    // Escribir el encabezado del archivo CSV
-                    writer.writeNext(new String[]{"id", "nombre", "descripcion", "nombreResponsable", "emailResponsable", "tipo", "fechaInicio", "fechaFin", "recurrencia", "fechaFinRecurrencia"});
-
-                    // Escribir los eventos en el archivo CSV
-                    while (rs.next()) {
-                        String[] eventoData = {
-                            String.valueOf(rs.getInt("id")),
-                            rs.getString("nombre"),
-                            rs.getString("descripcion"),
-                            rs.getString("nombreResponsable"),
-                            rs.getString("emailResponsable"),
-                            rs.getString("tipo"),
-                            rs.getString("fechaInicio"),
-                            rs.getString("fechaFin"),
-                            rs.getString("recurrencia"),
-                            rs.getString("fechaFinRecurrencia")
-                        };
-                        writer.writeNext(eventoData);
-                    }
-                }
-            }
-
-            System.out.println("Archivo CSV generado exitosamente: " + filePath);
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     public static void generateEventsCSV2(Date fechaInicio, Date fechaFin, String filePath) {
         System.out.println(filePath);
