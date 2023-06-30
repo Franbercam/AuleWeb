@@ -12,11 +12,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
 import sql.SQLConstructor;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.util.List;
+import sql.Admin;
 
 /**
  *
@@ -50,19 +54,57 @@ public class LoginServlet extends HttpServlet {
     } 
         response.setContentType("text/html;charset=UTF-8");
          
-       SQLConstructor test = new SQLConstructor();
-
+       String datab = new SQLConstructor().exeQueryAdmins();
+       PrintWriter out = response.getWriter();
+       out.print(datab);
+      
        String email = request.getParameter("email");
        String pass = request.getParameter("password");
        
-       boolean existsInDatabase = test.checkUserExistence("email", "pass");
-        if (existsInDatabase) {
-            JOptionPane.showMessageDialog(null, "existe usuario", "¡PERFECTO!", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "error", "¡PERFECTO!", JOptionPane.INFORMATION_MESSAGE);
-       }
-}
+             
+       boolean validCredentials = validateCredentials(email, pass);
 
+        if (validCredentials) {
+            // Iniciar sesión exitosamente  
+            establishUserSession(request, email);
+            response.sendRedirect("index.html"); // Redirigir al dashboard o página principal
+        } else {
+            // Credenciales inválidas, redirigir al formulario de inicio de sesión con un mensaje de error
+            request.setAttribute("error", "Credenciales inválidas");
+            request.getRequestDispatcher("adminlogin.html").forward(request, response);
+        }
+        
+    }       
+    
+    private boolean validateCredentials(String email, String password) {
+        SQLConstructor sqlConstructor = new SQLConstructor();
+        String jsonAdmins = sqlConstructor.exeQueryAdmins();
+
+        Gson gson = new Gson();
+        List<Admin> adminsList = gson.fromJson(jsonAdmins, new TypeToken<List<Admin>>(){}.getType());
+
+        for (Admin adminData : adminsList) {
+            if (adminData.getEmail().equals(email) && adminData.getPassword().equals(password)) {
+                return true; // Credenciales válidas
+            }
+        }
+
+        return false; // Credenciales inválidas
+    }
+    
+    private void establishUserSession(HttpServletRequest request, String email) {
+        HttpSession session = request.getSession(true);
+        session.setAttribute("email", email);
+
+        // Otros datos adicionales que desees almacenar en la sesión
+        // session.setAttribute("userId", userId);
+        // session.setAttribute("name", name);
+        // ...
+
+        // Establecer la duración máxima de la sesión (en segundos)
+        int sessionTimeout = 3600; // 1 hora (ajústalo según tus necesidades)
+        session.setMaxInactiveInterval(sessionTimeout);
+    }
            
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

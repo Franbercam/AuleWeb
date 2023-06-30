@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS login;
 DROP TABLE IF EXISTS eventos;
 DROP TABLE IF EXISTS aulas;
 DROP TABLE IF EXISTS edificios;
@@ -41,5 +42,11 @@ tipo ENUM('conferencia','examen','seminario','parcial','meeting','graduacion','o
 recurrencia ENUM('diaria','semanal','mensual','nula') NOT NULL,
 fechaFinRecurrencia DATETIME DEFAULT '1900-01-01 00:00:00',
 FOREIGN KEY (idAula) REFERENCES aulas(id)
+);
+
+CREATE TABLE login (
+id INT PRIMARY KEY AUTO_INCREMENT,
+email VARCHAR(200) NOT NULL,
+pass VARCHAR(200) NOT NULL
 );
 

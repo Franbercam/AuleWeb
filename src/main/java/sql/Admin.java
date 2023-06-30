@@ -20,6 +20,14 @@ public class Admin {
         this.password = password;
     }
      
+     public String getEmail(){
+         return this.email;
+     }
+     
+     public String getPassword() {
+         return this.password;
+     }
+     
     @Override
     public String toString() {
         return  "{   \"id\": " + this.id + ", \"email\":\"" + this.email + ",\"password\":\"" + this.password + "\"}";

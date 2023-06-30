@@ -15,8 +15,8 @@ body{
 }
 
 .login_cont{
-    width: 100%;
-    max-width: 50%;
+    width: 80%;
+  
     margin: auto;
     position: relative;
     left: 21%;
@@ -24,13 +24,9 @@ body{
 }
 
 .login_box{
-    width: 100%;    
-    padding: 10px 20px;
-    justify-content: center;
+    
+    position: relative;
+    left: 45%;
+    top: 250px;
     background-color: rgba(240,240,240,255);
 }
-
-.cont-login_form{
-    
-}
-
