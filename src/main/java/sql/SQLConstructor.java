@@ -22,13 +22,15 @@ public class SQLConstructor {
     static final String PASS = "";
 
     public static void main(String[] args) {
-
+        
+        //getUsers();
         //readDataBuildings();
         //readDataAules();
         //exeQueryAulasId();
         //exeQuery();
         //exeQueryDepartamentos();
-        readEvents(2, "a", "a", "a", "a@a.com", "2023-06-16T14:30:00", "2023-06-16T15:30:00", "examen", "nula", "1753-01-01T00:00:00" );
+        //readDataAdmin();
+        //(2, "a", "a", "a", "a@a.com", "2023-06-16T14:30:00", "2023-06-16T15:30:00", "examen", "nula", "1753-01-01T00:00:00" );
         //String valor = new SQLConstructor().exeQueryEventos(2);
         //System.out.println(valor);
         //getEventsAula(1);
@@ -77,6 +79,27 @@ public class SQLConstructor {
         }
     }
 
+public boolean checkUserExistence(String param1, String param2) {
+    String QUERY = "SELECT COUNT(*) AS count FROM login WHERE param1 = ? AND param2 = ?";
+    boolean exists = false;
+
+    try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+         PreparedStatement stmt = conn.prepareStatement(QUERY)) {
+        stmt.setString(1, param1);
+        stmt.setString(2, param2);
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+            int count = rs.getInt("count");
+            exists = count > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return exists;
+}
+    
     /*public static void getEventsAula(int idAula){
         String QUERY = "SELECT fechaInicio,fechaFin FROM eventos WHERE idAula = " +idAula;
         
@@ -375,7 +398,7 @@ public class SQLConstructor {
         return value;
     }
 
-    public static void readDataBuildings() {
+        public static void readDataBuildings() {
 
         File archivo = null;
         FileReader fr = null;
@@ -402,6 +425,56 @@ public class SQLConstructor {
                 //Presentamos los datos
 
                 String sql = "INSERT INTO edificios (id,nombre) VALUES (" + datos[0] + ",'" + datos[1] + "')";
+                System.out.println(sql);
+                SQLConstructor.insertSql(sql);
+                //stmt.executeUpdate(sql);
+
+            }
+
+            //Capturamos las posibles excepciones
+        } catch (Exception e) {
+            System.out.println("No funciona");
+            e.printStackTrace();
+
+        } finally {
+            try {
+                if (fr != null) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
+    
+    public static void readDataAdmin() {
+
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        String linea = null;
+
+        try {
+
+            //Cargamos el archivo de la ruta relativa
+            archivo = new File("src\\main\\webapp\\data\\admins.csv");
+            //Cargamos el objeto FileReader
+            fr = new FileReader(archivo);
+            //Creamos un buffer de lectura
+            br = new BufferedReader(fr);
+
+            String[] datos = null;
+
+            //Leemos hasta que se termine el archivo
+            while ((linea = br.readLine()) != null) {
+
+                //Utilizamos el separador para los datos
+                datos = linea.split(";");
+                //Presentamos los datos
+
+                String sql = "INSERT INTO login (email,pass) VALUES ('" +datos[1] + "','" + datos[2] + "')";
                 System.out.println(sql);
                 SQLConstructor.insertSql(sql);
                 //stmt.executeUpdate(sql);
