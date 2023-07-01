@@ -17,8 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sql.SQLConstructor;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.List;
 import sql.Admin;
 
@@ -60,9 +61,10 @@ public class LoginServlet extends HttpServlet {
       
        String email = request.getParameter("email");
        String pass = request.getParameter("password");
-       
+        System.out.println(email + pass);
              
        boolean validCredentials = validateCredentials(email, pass);
+        System.out.println(validCredentials);
 
         if (validCredentials) {
             // Iniciar sesión exitosamente  
@@ -75,13 +77,13 @@ public class LoginServlet extends HttpServlet {
         }
         
     }       
-    
+
+
     private boolean validateCredentials(String email, String password) {
         SQLConstructor sqlConstructor = new SQLConstructor();
         String jsonAdmins = sqlConstructor.exeQueryAdmins();
 
-        Gson gson = new Gson();
-        List<Admin> adminsList = gson.fromJson(jsonAdmins, new TypeToken<List<Admin>>(){}.getType());
+        List<Admin> adminsList = parseAdminsJson(jsonAdmins);
 
         for (Admin adminData : adminsList) {
             if (adminData.getEmail().equals(email) && adminData.getPassword().equals(password)) {
@@ -91,6 +93,25 @@ public class LoginServlet extends HttpServlet {
 
         return false; // Credenciales inválidas
     }
+
+    private List<Admin> parseAdminsJson(String jsonAdmins) {
+        List<Admin> adminsList = new ArrayList<>();
+
+        // Extraer los campos necesarios del JSON
+        Pattern pattern = Pattern.compile("\\{\\s*\"id\"\\s*:\\s*(\\d+),\\s*\"email\"\\s*:\\s*\"([^\"]+)\",\\s*\"password\"\\s*:\\s*\"([^\"]+)\"\\s*}");
+        Matcher matcher = pattern.matcher(jsonAdmins);
+
+        while (matcher.find()) {
+            int id = Integer.parseInt(matcher.group(1));
+            String email = matcher.group(2);
+            String password = matcher.group(3);
+            Admin admin = new Admin(id, email, password);
+            adminsList.add(admin);
+        }
+
+        return adminsList;
+    }
+
     
     private void establishUserSession(HttpServletRequest request, String email) {
         HttpSession session = request.getSession(true);
