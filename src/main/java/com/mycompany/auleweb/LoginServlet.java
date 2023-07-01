@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
+import javax.swing.JOptionPane;
 import sql.Admin;
 
 /**
@@ -61,11 +62,10 @@ public class LoginServlet extends HttpServlet {
       
        String email = request.getParameter("email");
        String pass = request.getParameter("password");
-        System.out.println(email + pass);
+      
              
        boolean validCredentials = validateCredentials(email, pass);
-        System.out.println(validCredentials);
-
+       
         if (validCredentials) {
             // Iniciar sesión exitosamente  
             establishUserSession(request, email);
@@ -73,7 +73,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             // Credenciales inválidas, redirigir al formulario de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Credenciales inválidas");
-            request.getRequestDispatcher("adminlogin.html").forward(request, response);
+            request.getRequestDispatcher("additional_pages/adminlogin.html").forward(request, response);
         }
         
     }       
@@ -81,12 +81,15 @@ public class LoginServlet extends HttpServlet {
 
     private boolean validateCredentials(String email, String password) {
         SQLConstructor sqlConstructor = new SQLConstructor();
+     
         String jsonAdmins = sqlConstructor.exeQueryAdmins();
-
+        
         List<Admin> adminsList = parseAdminsJson(jsonAdmins);
-
+        
         for (Admin adminData : adminsList) {
+            
             if (adminData.getEmail().equals(email) && adminData.getPassword().equals(password)) {
+                
                 return true; // Credenciales válidas
             }
         }
@@ -114,17 +117,12 @@ public class LoginServlet extends HttpServlet {
 
     
     private void establishUserSession(HttpServletRequest request, String email) {
-        HttpSession session = request.getSession(true);
-        session.setAttribute("email", email);
+    HttpSession session = request.getSession(true);
+    session.setAttribute("email", email);
 
-        // Otros datos adicionales que desees almacenar en la sesión
-        // session.setAttribute("userId", userId);
-        // session.setAttribute("name", name);
-        // ...
-
-        // Establecer la duración máxima de la sesión (en segundos)
-        int sessionTimeout = 3600; // 1 hora (ajústalo según tus necesidades)
-        session.setMaxInactiveInterval(sessionTimeout);
+    // Establecer la duración máxima de la sesión (en segundos)
+    int sessionTimeout = 3600; // 1 hora (ajústalo según tus necesidades)
+    session.setMaxInactiveInterval(sessionTimeout);
     }
            
 

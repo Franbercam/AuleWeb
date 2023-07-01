@@ -11,59 +11,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-            
+    <body>
         
             
-            <div class="login_box">
-                <h3>Login in</h3>          
-            
-            
-            <div class = "cont-login_form">
-                <form action="../LoginServlet" class ="login-form" method="post">
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
-                  <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password">
-                  </div>
-                  <button id="button" type="submit" class="btn btn-primary">Log in</button>
-                </form>
-            </div>
-            </div>
-        
-        
-        <script>
+           <form action="../LoginServlet" class ="form-event" method="post">
+           <div class="container--flex">
+               <label class="form__label">email</label>
+               <input type="text" class="form__input" name="email" id="idaula" required>
+           </div>
+           <div class="container--flex">
+               <label class="form__label">password</label>
+               <input type="text" class="form__input" name="password" required>
+           </div>
+           
+
           
-                
-        function loadUsers(callBack) {
-            fetch('/AuleWeb/LoginServlet')
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return res.json();
-                })
-                .then(res => callBack(res))
-                .catch(error => console.log(error));
-        }  
-            
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
-        const button = document.getElementById('button');
+           <input type="submit">
+           <a href="../index.html" class="btn btn-primary">Home</a>
+         </form> 
         
-        button.addEventListener('click',(e) =>{
-            e.preventDefault();
-            const data = {
-                email: email.value,
-                password: password.value
-            };
-            
-            console.log(data);
-        });
-        </script>
+     </body>
         
     
 </html>

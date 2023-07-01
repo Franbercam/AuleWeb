@@ -30,7 +30,7 @@ public class Admin {
      
     @Override
     public String toString() {
-        return  "{   \"id\": " + this.id + ", \"email\":\"" + this.email + ",\"password\":\"" + this.password + "\"}";
+        return "{\"id\":" + this.id + ",\"email\":\"" + this.email + "\",\"password\":\"" + this.password + "\"}";
     }
     
     
