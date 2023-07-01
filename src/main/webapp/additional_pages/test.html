@@ -1,66 +1,80 @@
     <head>
-        <title>Start Page</title>
+        <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="../css/eventProperty.css">
+
+        <title>Event Property</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     
-    <body>
-        <div class="table">
-  <table>
-    <tbody>
-      <!-- Aquí puedes agregar filas y celdas dentro del tbody si lo deseas -->
-    </tbody>
-  </table>
-</div>
-    </body>
-    
-    
-    <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    // Obtener el valor del parámetro "idEvento"
-    const id = parseInt(new URL(window.location.href).searchParams.get("idEvento"));
+<body>
+  <div class="container">
+    <div class="table">
+      <h2>EVENT PROPERTIES</h2>
+      <table>
+        <tbody>
+          <!-- Aquí puedes agregar filas y celdas dentro del tbody si lo deseas -->
+        </tbody>
+      </table>
+    </div>
+    <div class="buttons">
+      <a href="../index.html" class="btn btn-warning">Home</a>
+      <form action="../DeleteEventServlet" class="delete-form-event" method="post">
+        <a class="btn btn-secondary">Delete</a>
+      </form>
+      <button id="edit_event" class="btn btn-secondary">Edit Event</button>
+    </div>
+  </div>
+</body>
 
-    window.onload = function () {
-            loadEventos(paintEvents);
-        };
-    
-    function loadEventos(callBack) {
-        fetch(`/AuleWeb/NewServlet?id=${id}`)
-                .then(res => res.json())
-                .then(res => callBack(res));
-        }
-        
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  // Obtener el valor del parámetro "idEvento"
+  const id = parseInt(urlParams.get("idEvento"));
+  const deleteUrl = `../DeleteEventServlet?idEvento=${id}`;
+  const deleteLink = document.querySelector(".buttons .btn-secondary");
+  deleteLink.setAttribute("href", deleteUrl);
 
-function paintEvents(data) {
+  window.onload = function() {
+    loadEventos(paintEvents);
+  };
+
+  function loadEventos(callBack) {
+    fetch(`/AuleWeb/NewServlet?id=${id}`)
+      .then((res) => res.json())
+      .then((res) => callBack(res));
+  }
+
+  function paintEvents(data) {
     let rows = "";
     let csvContent = "data:text/csv;charset=utf-8,";
     csvContent += "Nombre,Descripción,Nombre Responsable,Email Responsable,Tipo,Recurrencia,Fecha de Inicio,Fecha Fin Recurrencia,Fecha de Fin\n";
 
     data.forEach((evento) => {
-        const row = [
-            evento.nombre,
-            evento.descripcion,
-            evento.nombreResponsable,
-            evento.emailResponsable,
-            evento.tipo,
-            evento.recurrencia,
-            evento.fechaInicio,
-            evento.fechaFinRecurrencia,
-            evento.fechaFin]
-            
-        const tdNombre = `<td><strong>Nombre:</strong> ${evento.nombre}</td>`;
-        const tdDescripcion = `<td><strong>Descripción:</strong> ${evento.descripcion}</td>`;
-        const tdNombreResponsable = `<td><strong>Nombre Responsable:</strong> ${evento.nombreResponsable}</td>`;
-        const tdEmailResponsable = `<td><strong>Email Responsable:</strong> ${evento.emailResponsable}</td>`;
-        const tdTipo = `<td><strong>Tipo:</strong> ${evento.tipo}</td>`;
-        const tdRecurrencia = `<td><strong>Recurrencia:</strong> ${evento.recurrencia}</td>`;
-        const tdFechaInicio = `<td><strong>Fecha de Inicio:</strong> ${evento.fechaInicio}</td>`;
-        const tdFechaFinRecurrencia = `<td><strong>Fecha Fin Recurrencia:</strong> ${evento.fechaFinRecurrencia}</td>`;
-        const tdFechaFin = `<td><strong>Fecha de Fin:</strong> ${evento.fechaFin}</td>`;
-        
-        const tr = `<tr>${tdNombre}</tr><tr>${tdDescripcion}</tr><tr>${tdNombreResponsable}</tr><tr>${tdEmailResponsable}</tr><tr>${tdTipo}</tr><tr>${tdRecurrencia}</tr><tr>${tdFechaInicio}</tr><tr>${tdFechaFinRecurrencia}</tr><tr>${tdFechaFin}</tr>`;
-        rows += tr;
-        ;
-        csvContent += row.join(",") + "\n";
+      const row = [
+        evento.nombre,
+        evento.descripcion,
+        evento.nombreResponsable,
+        evento.emailResponsable,
+        evento.tipo,
+        evento.recurrencia,
+        evento.fechaInicio,
+        evento.fechaFinRecurrencia,
+        evento.fechaFin
+      ];
+
+      const tdNombre = `<td><strong>Name:</strong> ${evento.nombre}</td>`;
+      const tdDescripcion = `<td><strong>Description:</strong> ${evento.descripcion}</td>`;
+      const tdNombreResponsable = `<td><strong>Staff name:</strong> ${evento.nombreResponsable}</td>`;
+      const tdEmailResponsable = `<td><strong>Staff email:</strong> ${evento.emailResponsable}</td>`;
+      const tdTipo = `<td><strong>Type of event:</strong> ${evento.tipo}</td>`;
+      const tdRecurrencia = `<td><strong>Recurrency:</strong> ${evento.recurrencia}</td>`;
+      const tdFechaInicio = `<td><strong>Start date:</strong> ${evento.fechaInicio}</td>`;
+      const tdFechaFinRecurrencia = `<td><strong>Recurrency end date:</strong> ${evento.fechaFinRecurrencia}</td>`;
+      const tdFechaFin = `<td><strong>End date:</strong> ${evento.fechaFin}</td>`;
+
+      const tr = `<tr>${tdNombre}</tr><tr>${tdDescripcion}</tr><tr>${tdNombreResponsable}</tr><tr>${tdEmailResponsable}</tr><tr>${tdTipo}</tr><tr>${tdRecurrencia}</tr><tr>${tdFechaInicio}</tr><tr>${tdFechaFinRecurrencia}</tr><tr>${tdFechaFin}</tr>`;
+      rows += tr;
+      csvContent += row.join(",") + "\n";
     });
 
     document.querySelector(".table tbody").innerHTML = rows;
@@ -70,12 +84,36 @@ function paintEvents(data) {
     link.setAttribute("download", "eventos.csv");
     link.innerHTML = "Descargar CSV";
     document.body.appendChild(link);
-}
 
+    const nombreCampo = data[0].nombre;
+    const descripcionCampo = data[0].descripcion;
+    const nombreResponsableCampo = data[0].nombreResponsable;
+    const emailResponsableCampo = data[0].emailResponsable;
+    const tipoCampo = data[0].tipo;
+    const recurrenciaCampo = data[0].recurrencia;
+    const fechaInicioCampo = data[0].fechaInicio;
+    const fechaFinRecurrenciaCampo = data[0].fechaFinRecurrencia;
+    const fechaFinCampo = data[0].fechaFin;
 
+    const editButton = document.getElementById("edit_event");
 
+    // Genera la URL de edición con los campos guardados
+    const editUrl = `editevent.html?idEvento=${id}&nombre=${nombreCampo}&descripcion=${descripcionCampo}&nombreResponsable=${nombreResponsableCampo}&emailResponsable=${emailResponsableCampo}&tipo=${tipoCampo}&recurrencia=${recurrenciaCampo}&fechaInicio=${fechaInicioCampo}&fechaFinRecurrencia=${fechaFinRecurrenciaCampo}&fechaFin=${fechaFinCampo}`;
 
+    // Actualiza la función del botón "Edit Event" para redireccionar a la página adecuada
+    editButton.addEventListener("click", function() {
+      goToEditEvent(editUrl);
+      console.log("click");
+    });
+  }
 
-    console.log("ID del evento en test.html:", id);
-    </script>
+  function goToEditEvent(url) {
+    window.location.href = url;
+  }
+
+  function goToNuevoEvento(idAula) {
+    window.location.href = `addevent.html?idDepartamento=${id}&idAula=${idAula}`;
+  }
+</script>
+
 

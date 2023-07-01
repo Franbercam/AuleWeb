@@ -8,6 +8,23 @@
     
 }
 
+.container::before {
+  content: "";
+  display: block;
+  position: absolute;
+  margin-top: 48px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(https://pbs.twimg.com/profile_images/844881776/logo-univaq_400x400.png);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.12;
+  z-index: -1;
+}
+
 .form-register {
     width: 95%;
     max-width: 500px;

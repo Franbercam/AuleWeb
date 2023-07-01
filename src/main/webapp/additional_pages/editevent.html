@@ -5,9 +5,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 -->
 <html>
     <head>
-        <title>Add Event</title>
+        <title>Edit Event</title>
         <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="../css/addevent.css">
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -17,36 +18,34 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="container">
             
         <div class="container-form">
-         <form action="../Servlet" class ="form-event" method="post">
-           <h1 class= "form__title"><b>Add Event</b></h1>
-            <input type="hidden" class="form__input" name="iddepartamento" id="iddepartamento">
+         <form action="../EditEventServlet" class ="form-event" method="post">
+           <h1 class= "form__title">Edit Event</h1>
            <div class="container--flex">
-               <label class="form__label"><b>Aule Id</b></label>
-               <input type="text" class="form__input" name="idaula" id="idaula" required>
+               <input type="hidden" class="form__input" name="idevento" id="idevento" required>
            </div>
            <div class="container--flex">
                <label class="form__label"><b>Name Event</b></label>
-               <input type="text" class="form__input" name="nombre" placeholder="Insert the name" required>
+               <input type="text" class="form__input" name="nombre" id="nombre" placeholder="Insert event name" required>
            </div>
             <div class="container--flex">
                <label class="form__label"><b>Description</b></label>
-               <input type="text" class="form__input" name="description" placeholder="Insert here the description" required>
+               <input type="text" class="form__input" name="description" id="descripcion" placeholder="Insert description" required>
            </div>
            <div class="container--flex">
                <label class="form__label"><b>Staff Name</b></label>
-               <input type="text" class="form__input" name="staffname" placeholder="Insert here the Staff name" required>
+               <input type="text" class="form__input" name="staffname" id="nombreResponsable" placeholder="Insert Staff name" required>
            </div>
            <div class="container--flex">
                <label class="form__label"><b>email</b></label>
-               <input type="email" class="form__input" name= "email" placeholder="Insert here the staff email" required>
+               <input type="email" class="form__input" name= "email" id="emailResponsable" placeholder="Insert Staff email" required>
            </div>
            <div class="container--flex">
                <label class="form__label"><b>Date</b></label>
-               <input type="text" class="form__input" name= "Date" placeholder="Date format: YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" required>
+               <input type="text" class="form__input" name= "Date" id="fechaInicio" placeholder="Date format: YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" required>
            </div>
            <div class="container--flex">
                <label class="form__label"><b>Start Hour</b></label>
-               <select name="hourStart">
+               <select name="hourStart" id="horaIn">
                 <option value="8">8</option>
                 <option value="9">9</option>
                 <option value="10">10</option>
@@ -63,7 +62,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
            </div>
             <div class="container--flex">
                <label class="form__label"><b>Start minutes</b></label>
-               <select name="minuteStart">
+               <select name="minuteStart" id="minutosIn">
                 <option value="00">00</option>
                 <option value="15">15</option>
                 <option value="30">30</option>
@@ -73,7 +72,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
            <div class="container--flex">
                <label class="form__label"><b>End Hour</b></label>
-               <select name="hourEnd">
+               <select name="hourEnd" id="horaFin">
                 <option value="8">8</option>
                 <option value="9">9</option>
                 <option value="10">10</option>
@@ -90,7 +89,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </div>
             <div class="container--flex">
                <label for="" class="form__label"><b>End minutes</b></label>
-               <select name="minuteEnd">
+               <select name="minuteEnd" id="minFin">
                 <option value="00">00</option>
                 <option value="15">15</option>
                 <option value="30">30</option>
@@ -98,8 +97,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
               </select>
             </div>
             <div class="container--flex">
-               <label  class="form__label">Type</label>
-               <select name="tipo">
+               <label  class="form__label"><b>Type</b></label>
+               <select name="tipo" id="tipo">
                 <option value="conferencia">conferencia</option>
                 <option value="examen">examen</option>
                 <option value="seminario">seminario</option>
@@ -111,7 +110,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
            </div>
            <div class="container--flex">
                <label for="" class="form__label"><b>Recurrencia</b></label>
-               <select name="recurrencia">
+               <select name="recurrencia" id="recurrencia">
                 <option value="diaria">diaria</option>
                 <option value="semanal">semanal</option>
                 <option value="mensual">mensual</option>
@@ -120,7 +119,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
            </div>
            <div class="container--flex">
                <label for="" class="form__label"><b>End Data Recurrency</b></label>
-               <input type="text" class="form__input" name= "fechafinrecurrencia" value="1753-01-01T00:00:00">
+               <input type="text" class="form__input" id="fechaFinRecurrencia" name= "fechafinrecurrencia" value="1753-01-01T00:00:00">
            </div>
           
             <input class="btn btn-warning" type="submit">
@@ -132,17 +131,73 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
         
         <script>
-            const idDepartamento = parseInt(new URL(window.location.href).searchParams.get("idDepartamento"));
-            const idAula = parseInt(new URL(window.location.href).searchParams.get("idAula"));
-            
-            window.onload = function(){
-                document.querySelector("#idaula").value = idAula;
-                document.querySelector("#iddepartamento").value = idDepartamento;
-                
-            };
-            
-            console.log(Date + hourStart + minuteStart + hourEnd + minutEnd);
-            
-        </script>
+  window.onload = function() {
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Retrieve the values of idDepartamento and idAula from the URL
+    const idEvento = parseInt(urlParams.get("idEvento"));
+    const nombre = urlParams.get("nombre");
+    const descripcion = urlParams.get("descripcion");
+    const nombreResponsable = urlParams.get("nombreResponsable");
+    const emailResponsable = urlParams.get("emailResponsable");
+    const tipo = urlParams.get("tipo");
+    const recurrencia = urlParams.get("recurrencia");
+    const fechaInicio = urlParams.get("fechaInicio");
+    
+    const fechaInicioParts = fechaInicio.split(" ");
+    const fecha = fechaInicioParts[0];
+    const horaIn = fechaInicioParts[1].split(":")[0];
+    const minutosIn = fechaInicioParts[1].split(":")[1];
+    
+    
+    const fechaFinRecurrencia = urlParams.get("fechaFinRecurrencia");
+    
+
+    // Set default values in the form fields
+    document.querySelector("#idevento").value = idEvento || "";
+    document.querySelector("#nombre").value = nombre || "";
+    document.querySelector("#descripcion").value = descripcion || "";
+    document.querySelector("#nombreResponsable").value = nombreResponsable || "";
+    document.querySelector("#emailResponsable").value = emailResponsable || "";
+    //document.querySelector("#tipo").value = tipo || "";
+    document.querySelector("#recurrencia").value = recurrencia || "";
+    
+    document.querySelector("#fechaFinRecurrencia").value = fechaFinRecurrencia || "";
+    
+
+
+    // ... Other parts of the script ...
+  };
+</script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tipo = urlParams.get("tipo");
+        document.querySelector("#tipo").value = tipo || "";
+        
+        const recurrencia = urlParams.get("recurrencia");
+        document.querySelector("#recurrencia").value = tipo || "";
+        
+        const fechaInicio = urlParams.get("fechaInicio");
+        const fechaInicioParts = fechaInicio.split(" ");
+        const fecha = fechaInicioParts[0];
+        const horaIn = parseInt(fechaInicioParts[1].split(":")[0]);
+        const minutosIn = parseInt(fechaInicioParts[1].split(":")[1]);
+        
+        const fechaFin = urlParams.get("fechaFin");
+        const fechaFinParts = fechaFin.split(" ");
+        const horaFi = parseInt(fechaFinParts[1].split(":")[0], 10);
+        const minutosFi = parseInt(fechaFinParts[1].split(":")[1], 10);
+
+        document.querySelector("#fechaInicio").value = fecha || "";
+        document.querySelector("#horaIn").value = horaIn || "";
+        document.querySelector("#minutosIn").value = minutosIn || "";
+
+        document.querySelector("#horaFin").value = horaFi || "";
+        document.querySelector("#minFin").value = minutosFi || "";
+      });
+    </script>
+
     </body>
 </html>

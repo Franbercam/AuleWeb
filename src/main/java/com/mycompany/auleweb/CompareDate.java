@@ -56,10 +56,10 @@ public class CompareDate extends HttpServlet {
             Date fechaFinCsv = sdfEnd.parse(dateEndString);
 
             if (fechaInicioCsv.compareTo(fechaFinCsv) > 0) {
-                JOptionPane.showMessageDialog(null, "La fecha de inicio debe ser mayor que la fecha fin", "Hey!", JOptionPane.ERROR_MESSAGE);
-                System.out.println("entra if");
+                JOptionPane.showMessageDialog(null, "End date can't be bigger than Start Date", "Hey!", JOptionPane.ERROR_MESSAGE);
+                response.sendRedirect("index.html"); // Redirigir al dashboard o página principal
+
             } else {
-                System.out.println("entra else");
 
                 String home = System.getProperty("user.home");
 

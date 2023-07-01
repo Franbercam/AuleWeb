@@ -113,7 +113,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
       const tieneRetroProy = option.getAttribute("tieneretroproy");
       const tieneWifi = option.getAttribute("tienewifi");
 
-      const siNoMapper = (value) => (value === "true" ? "si" : "no");
+      const siNoMapper = (value) => (value === "true" ? "Yes" : "No");
         document.getElementById("nombre_aula").innerHTML = "<b>Room Name:</b> " + nombre;
         document.getElementById("descripcion_aula").innerHTML = "<b>Room Description:</b> " + descripcion;
         document.getElementById("aforo_aula").innerHTML = "<b>Room Capacity:</b> " + aforo;
@@ -206,6 +206,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
         <p></p>
          <form action="../CompareDate" class ="form-events-csv" method="post">
+                     <h2 >Download events:</h2>
+
             <label for="fecha-inicial">Initial date:</label>
             <input type="date" id="fecha-inicial" name="fecha-inicial">
 

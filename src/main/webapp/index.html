@@ -11,8 +11,6 @@
          
          <div class = "container-btn">
           <a href="additional_pages/adminlogin.html" class="btn btn-warning">Developer tools</a>
-          <a href="" class="btn btn-secondary">Delete</a> 
-          <a href="" class="btn btn-secondary">Edit</a> 
          </div> 
          
         <form action="Servlet" method="post"></form>
@@ -49,7 +47,7 @@
              function paintTable(data){
                  let rows = "";
                  data.map((departamento) => {
-                    const td = `<td>${departamento.nombre}</td><td><button onclick="goToCalendar(${departamento.id})">Go to Calendar</button></td>`;
+                    const td = `<td>${departamento.nombre}</td><td><button class="btn btn-secondary" onclick="goToCalendar(${departamento.id})">Go to Calendar</button></td>`;
                     const tr = `<tr>${td}</tr>`;
                     rows+= tr;
                  });

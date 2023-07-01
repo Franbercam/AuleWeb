@@ -47,6 +47,13 @@ public class SQLConstructor {
         SQLConstructor.insertSql(sql);
 
     }
+    
+    public static void editEvents(int idEvento, String nombre, String descripcion, String nombreResponsable, String emailResponsable, String fechaInicio, String fechaFin, String tipo, String recurrencia, String fechaFinRecurrencia) {
+
+        String sql = "UPDATE eventos SET nombre = '" + nombre + "', descripcion = '" + descripcion + "', nombreResponsable = '" + nombreResponsable + "', emailResponsable = '" + emailResponsable + "', fechaInicio = '" + fechaInicio + "', fechaFin = '" + fechaFin + "', tipo = '" + tipo + "', recurrencia = '" + recurrencia + "', fechaFinRecurrencia = '" + fechaFinRecurrencia + "' WHERE id = " + idEvento;
+        System.out.println(sql);
+        SQLConstructor.insertSql(sql);
+    }
 
     public static void insertSql(String sql) {
 
@@ -192,33 +199,28 @@ public boolean checkUserExistence(String param1, String param2) {
         return res;
     }
 
-    public String exeQueryAulas(int id) {
+    public void deleteEvento(int id) {
+        String DELETE_QUERY = "DELETE FROM eventos WHERE id = ?";
 
-        String result = "";
-        String QUERY = "SELECT Id, nombre, aforo FROM aulas WHERE IdEdificios = " + id;
-        // Open a connection
-        try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(QUERY);) {
-            ArrayList<String> aulas = new ArrayList<String>();
-            while (rs.next()) {
-                Aula aula = new Aula(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getInt("aforo")
-                );
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement(DELETE_QUERY)) {
+            pstmt.setInt(1, id);
 
-                aulas.add(aula.toString());
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("El evento con ID " + id + " se ha eliminado correctamente.");
+            } else {
+                System.out.println("No se encontró ningún evento con ID " + id + ".");
             }
-
-            result = "[" + String.join(",", aulas) + " ]";
-
         } catch (SQLException e) {
             e.printStackTrace();
-            result = e.getMessage();
+            // Manejar el error de conexión o consulta
         }
-
-        return result;
     }
 
+    
+    
     public String exeQueryAulasId(int id) {
 
         String result = "";
