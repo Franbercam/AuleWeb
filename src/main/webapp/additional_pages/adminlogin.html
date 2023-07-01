@@ -13,23 +13,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </head>
     <body>
         
-            
+        <div class="container-form">
            <form action="../LoginServlet" class ="form-event" method="post">
            <div class="container--flex">
-               <label class="form__label">email</label>
+               <label class="form__label">Email</label>
                <input type="text" class="form__input" name="email" id="idaula" required>
            </div>
            <div class="container--flex">
-               <label class="form__label">password</label>
+               <label class="form__label">Password</label>
                <input type="text" class="form__input" name="password" required>
-           </div>
-           
-
-          
-           <input type="submit">
-           <a href="../index.html" class="btn btn-primary">Home</a>
+           </div>               
+           <input class="btn btn-warning" type="submit"  value="Login in">
+           <a href="../index.html" class="btn btn-secondary">Home</a>
          </form> 
-        
+        </div>
      </body>
         
     

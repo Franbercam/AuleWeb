@@ -1,32 +1,36 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: sans-serif;
-}
-
 body{
-    background-image: url(../docs/univaq-login.png);
-    
+    background-image: url(../docs/univaq-login.png);    
     background-position: center;
     background-attachment: fixed;
     background-size: cover;   
 }
 
-.login_cont{
-    width: 80%;
-  
-    margin: auto;
-    position: relative;
-    left: 21%;
-    top: 200px;
+.container-form {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+  margin-left: 60%;
+  margin-top: 18%;
+  width: 300px;
 }
 
-.login_box{
-    
-    position: relative;
-    left: 45%;
-    top: 250px;
-    background-color: rgba(240,240,240,255);
+.container--flex {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
+
+.form__label {
+  margin-right: 10px;
+}
+
+.form__input {
+  padding: 5px;
+}
+
+.btn {
+  margin-right: 10px;
+}
+
+
+

@@ -28,30 +28,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
         function declareListeners() {
             document.querySelector("#select_aulas").addEventListener("change", function () {
-                const aulaId = this.options[this.selectedIndex].getAttribute("id");
-                
-
-                
+                const aulaId = this.options[this.selectedIndex].getAttribute("id");              
                 loadEventos(aulaId, createCalendario);
-                paintDetalleAula(this.options[this.selectedIndex]);
-               
+                paintDetalleAula(this.options[this.selectedIndex]);              
             });
-
             document.querySelector("#add_event").addEventListener("click", function () {
                 const select = document.querySelector("#select_aulas");
                 const aulaId = select.options[select.selectedIndex].getAttribute("id");
-
-
                 if (!aulaId) {
                     alert("Seleccione un aula");
                     return;
                 }
-
                 goToNuevoEvento(aulaId);
-
 
             });
         }
+        
         function loadAulas(callBack) {
             fetch(`/AuleWeb/AulasServlet?id=${id}`)
                     .then(res => res.json())
@@ -78,7 +70,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 option.setAttribute("id", aula.id);         
                 option.setAttribute("nombre", aula.nombre);
                 option.setAttribute("descripcion", aula.descripcion);
-                option.setAttribute("ubicacion", aula.ubicacion);
                 option.setAttribute("aforo", aula.aforo);
                 option.setAttribute("numEnchufes", aula.numEnchufes);
                 option.setAttribute("red", aula.red);
@@ -113,7 +104,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
       const aforo = option.getAttribute("aforo");
       const enchufes = option.getAttribute("numenchufes");
       const red = option.getAttribute("red");
-      const ubicacion = option.getAttribute("ubicacion");
       const tienePantallaMotorizada = option.getAttribute("tienepantallamotorizada");
       const tienPantallaManual = option.getAttribute("tienepantallamanual");
       const tieneSisAudio = option.getAttribute("tienesisaudio");
@@ -124,38 +114,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
       const tieneWifi = option.getAttribute("tienewifi");
 
       const siNoMapper = (value) => (value === "true" ? "si" : "no");
+        document.getElementById("nombre_aula").innerHTML = "<b>Room Name:</b> " + nombre;
+        document.getElementById("descripcion_aula").innerHTML = "<b>Room Description:</b> " + descripcion;
+        document.getElementById("aforo_aula").innerHTML = "<b>Room Capacity:</b> " + aforo;
+        document.getElementById("enchufes_aula").innerHTML = "<b>Number of Outlets:</b> " + enchufes;
+        document.getElementById("red_aula").innerHTML = "<b>Network Ports:</b> " + red;
+        document.getElementById("tiene_proyector").innerHTML = "<b>Has Projector:</b> " + siNoMapper(tieneProyector);
+        document.getElementById("tiene_pantalla_manual").innerHTML = "<b>Has Manual Screen:</b> " + siNoMapper(tienPantallaManual);
+        document.getElementById("tiene_pantalla_motorizada").innerHTML = "<b>Has Motorized Screen:</b> " + siNoMapper(tienePantallaMotorizada);
+        document.getElementById("tiene_pc").innerHTML = "<b>Has PC:</b> " + siNoMapper(tienePC);
+        document.getElementById("tiene_sis_audio").innerHTML = "<b>Has Audio System:</b> " + siNoMapper(tieneSisAudio);
+        document.getElementById("tiene_mic_ina").innerHTML = "<b>Has Wireless Microphone:</b> " + siNoMapper(tieneMicIna);
+        document.getElementById("tiene_mic_ala").innerHTML = "<b>Has Wired Microphone:</b> " + siNoMapper(tieneMicAla);
+        document.getElementById("tiene_retro_proy").innerHTML = "<b>Has Overhead Projector:</b> " + siNoMapper(tieneRetroProy);
+        document.getElementById("tiene_wifi").innerHTML = "<b>Has WIFI:</b> " + siNoMapper(tieneWifi);
 
-      document.getElementById("nombre_aula").innerHTML = "<b>Nombre del aula:</b> " + nombre;
-      document.getElementById("descripcion_aula").innerHTML = "<b>Descripción del aula:</b> " + descripcion;
-      document.getElementById("aforo_aula").innerHTML = "<b>Aforo del aula:</b> " + aforo;
-      document.getElementById("enchufes_aula").innerHTML = "<b>Numero de enchufes:</b> " + enchufes;
-      document.getElementById("red_aula").innerHTML = "<b>Tomas de red:</b> " + red;
-      const ubicacionAulaElemento = document.getElementById("ubicacion_aula");
-
-        // Redireccion en otra pestaña de la ubicacion
-        const enlace = document.createElement("a");
-        enlace.href = ubicacion;
-        enlace.target = "_blank";
-        enlace.textContent = "Ubicación";
-        ubicacionAulaElemento.appendChild(enlace);
-
-      document.getElementById("tiene_proyector").innerHTML = "<b>¿Tiene proyector?:</b> " + siNoMapper(tieneProyector);
-      document.getElementById("tiene_pantalla_manual").innerHTML = "<b>¿Tiene pantalla manual?:</b> " + siNoMapper(tienPantallaManual);
-      document.getElementById("tiene_pantalla_motorizada").innerHTML = "<b>¿Tiene pantalla motorizada?:</b> " + siNoMapper(tienePantallaMotorizada);
-      document.getElementById("tiene_pc").innerHTML = "<b>¿Tiene PC?:</b> " + siNoMapper(tienePC);
-      document.getElementById("tiene_sis_audio").innerHTML = "<b>¿Tiene sistema de audio?:</b> " + siNoMapper(tieneSisAudio);
-      document.getElementById("tiene_mic_ina").innerHTML = "<b>¿Tiene micrófono inalámbrico?:</b> " + siNoMapper(tieneMicIna);
-      document.getElementById("tiene_mic_ala").innerHTML = "<b>¿Tiene micrófono alámbrico?:</b> " + siNoMapper(tieneMicAla);
-      document.getElementById("tiene_retro_proy").innerHTML = "<b>¿Tiene retroproyector?:</b> " + siNoMapper(tieneRetroProy);
-      document.getElementById("tiene_wifi").innerHTML = "<b>¿Tiene WIFI?:</b> " + siNoMapper(tieneWifi);
     }
 
         function MapToFullCalendarEvent(events) {
-
             return events.map(evento => {
-
                 let color;
-
                 if (evento.tipo === 'conferencia') {
                     color = '#FF0909';
                 } else if (evento.tipo === 'examen') {
@@ -218,46 +196,58 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </script>
 
 
-</head>
+    </head>
 
-<body>
-    <div>
-        <a href="../index.html" class="btn btn-primary">Home</a>
-    </div>
-    <div>
-        <button id="add_event" class="btn btn-primary">Add Event</button>
-    </div>
-    <select  class="form-control" id="select_aulas">
+    <body>
+        <div class="container-btn">
+            <select class="form-select" id="select_aulas"> </select>
+            <a href="../index.html" class="btn btn-secondary">Home</a>    
+            <button id="add_event" class="btn btn-warning">Add Event</button>
+        </div>
+        <p></p>
+         <form action="../CompareDate" class ="form-events-csv" method="post">
+            <label for="fecha-inicial">Initial date:</label>
+            <input type="date" id="fecha-inicial" name="fecha-inicial">
 
-    </select>
-    <div class="calendar-style" id='calendar'></div>    
+            <label for="fecha-final">Final date:</label>
+            <input type="date" id="fecha-final" name="fecha-final">
+
+            <input class = "btn btn-warning" type="submit" value="Send">
+        </form>
     
-    <p id="nombre_aula"></p>
-    <p id="descripcion_aula"></p>
-    <p id="ubicacion_aula"></p>
-    <p id="aforo_aula"></p>
-    <p id="enchufes_aula"></p>
-    <p id="red_aula"></p>
-    <p id="tiene_proyector"></p>
-    <p id="tiene_pantalla_motorizada"></p>
-    <p id="tiene_pantalla_manual"></p>
-    <p id="tiene_sis_audio"></p>
-    <p id="tiene_pc"></p>
-    <p id="tiene_mic_ina"></p>
-    <p id="tiene_mic_ala"></p>
-    <p id="tiene_retro_proy"></p>
-    <p id="tiene_wifi"></p>
+    <table>
+        <thead>
+             <tr>
+                <td id="cal-pos"><div class="calendar-style" id='calendar'></div></td>
+                <td id ="table-pos">                    
+                    <table class="table-info">
+                        <thead>
+                            <tr><th id="nombre_aula"></th></tr>
+                            <tr><th id="descripcion_aula"></th></tr> 
+                            <tr><th id="ubicacion_aula"></th></tr> 
+                            <tr><th id="aforo_aula"></th></tr>
+                            <tr><th id="enchufes_aula"></th></tr>
+                            <tr><th id="red_aula"></th></tr>
+                            <tr><th id="tiene_proyector"></th></tr>
+                            <tr><th id="tiene_pantalla_motorizada"></th></tr>
+                            <tr><th id="tiene_pantalla_manual"></th></tr>
+                            <tr><th id="tiene_sis_audio"></th></tr>
+                            <tr><th id="tiene_pc"></th></tr>
+                            <tr><th id="tiene_mic_ina"></th></tr>
+                            <tr><th id="tiene_mic_ala"></th></tr>
+                            <tr><th id="tiene_retro_proy"></th></tr>    
+                            <tr><th id="tiene_wifi"></th></tr> 
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </td>                
+             </tr>
+        </thead>
+    </table>
+      
     
 
-    <form action="../CompareDate" class ="form-events-csv" method="post">
-        <label for="fecha-inicial">Fecha inicial:</label>
-        <input type="date" id="fecha-inicial" name="fecha-inicial">
-
-        <label for="fecha-final">Fecha final:</label>
-        <input type="date" id="fecha-final" name="fecha-final">
-
-        <input type="submit" value="Enviar">
-    </form>
+   
 
     <script src="../css/bootstrap-5.3.0-dist/js/bootstrap.js"></script>
 </body>

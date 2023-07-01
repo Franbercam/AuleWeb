@@ -1,15 +1,11 @@
-* {
-    box-sizing: border-box;
-}
-
-body{
-    margin: 0;
-    font-family: sans-serif;
-    background: #add;
+.container-form{
+    width: 30%;
+    margin-bottom: 5%;
+    margin-left: 35%;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    
 }
 
 .form-register {
@@ -23,20 +19,6 @@ body{
     margin-top: 0;
     font-size: 1.7em;
     text-align: center;
-}
-
-.form__label, .form__input {
-    display: block;
-}
-
-.form__label{
-    width: 30%;
-}
-
-.form__input{
-    withd: 70%
-    padding: 10px;
-    font-size:1em;
 }
 
 .container--flex{

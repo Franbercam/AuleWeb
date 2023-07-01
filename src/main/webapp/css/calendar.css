@@ -1,5 +1,38 @@
 .calendar-style {
-  width: 80%;
-  height: 80%; 
-   
+  width: 100%;
+  height: 80%;
+  margin-top: 20px;
+  margin-left: 2%;
+  display: flex;
+  justify-content: center;   
+}
+
+.container-btn {
+  margin-top: -90px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#select_aulas {
+  width: 300px;
+  height: 40px;
+}
+
+#cal-pos {
+    width: 82%;
+}
+
+#table-pos {
+  text-align: center;
+  padding-left: 35px;
+}
+
+.table-info {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-events-csv {
+    text-align: center;
 }
