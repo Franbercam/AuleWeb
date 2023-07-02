@@ -45,14 +45,11 @@ public class LoginServlet extends HttpServlet {
             try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/aulaweb", "root", "");
          Statement stmt = conn.createStatement();
     ) {		      
-         // Execute a query
-         //System.out.println("Inserting records into the table...");          
+         // Execute a query    
          //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
-         //stmt.executeUpdate(sql);
-         //System.out.println("Inserted records into the table...");   	  
+         //stmt.executeUpdate(sql);  	  
     } catch (SQLException e) {
-         System.out.println("no va");
-         System.out.println(e);
+
     } 
         response.setContentType("text/html;charset=UTF-8");
          
@@ -72,7 +69,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("index.html"); // Redirigir al dashboard o página principal
         } else {
             // Credenciales inválidas, redirigir al formulario de inicio de sesión con un mensaje de error
-            request.setAttribute("error", "Credenciales inválidas");
+            request.setAttribute("error", "Invalid Credentials");
             request.getRequestDispatcher("additional_pages/adminlogin.html").forward(request, response);
         }
         

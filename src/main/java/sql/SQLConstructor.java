@@ -43,7 +43,6 @@ public class SQLConstructor {
 
         String sql = "INSERT INTO eventos (idAula,nombre,descripcion,nombreResponsable,emailResponsable,fechaInicio,fechaFin,tipo,recurrencia,fechaFinRecurrencia) VALUES "
                 + "(" + idAula + ",'" + nombre + "','" + descripcion + "','" + nombreResponsable + "','" + emailResponsable + "','" + fechaInicio + "','" + fechaFin + "','" + tipo + "','" + recurrencia + "','" + fechaFinRecurrencia + "')";
-        System.out.println(sql);
         SQLConstructor.insertSql(sql);
 
     }
@@ -51,7 +50,6 @@ public class SQLConstructor {
     public static void editEvents(int idEvento, String nombre, String descripcion, String nombreResponsable, String emailResponsable, String fechaInicio, String fechaFin, String tipo, String recurrencia, String fechaFinRecurrencia) {
 
         String sql = "UPDATE eventos SET nombre = '" + nombre + "', descripcion = '" + descripcion + "', nombreResponsable = '" + nombreResponsable + "', emailResponsable = '" + emailResponsable + "', fechaInicio = '" + fechaInicio + "', fechaFin = '" + fechaFin + "', tipo = '" + tipo + "', recurrencia = '" + recurrencia + "', fechaFinRecurrencia = '" + fechaFinRecurrencia + "' WHERE id = " + idEvento;
-        System.out.println(sql);
         SQLConstructor.insertSql(sql);
     }
 
@@ -59,14 +57,10 @@ public class SQLConstructor {
 
         // Open a connection
         try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  Statement stmt = conn.createStatement();) {
-            // Execute a query
-            //System.out.println("Inserting records into the table...");          
+            // Execute a query     
             //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
-            stmt.executeUpdate(sql);
-            //System.out.println("Inserted records into the table...");   	  
+            stmt.executeUpdate(sql);  	  
         } catch (SQLException e) {
-            System.out.println("no va");
-            System.out.println(e);
         }
     }
 
@@ -208,11 +202,6 @@ public boolean checkUserExistence(String param1, String param2) {
 
             int rowsAffected = pstmt.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("El evento con ID " + id + " se ha eliminado correctamente.");
-            } else {
-                System.out.println("No se encontró ningún evento con ID " + id + ".");
-            }
         } catch (SQLException e) {
             e.printStackTrace();
             // Manejar el error de conexión o consulta
@@ -340,14 +329,12 @@ public boolean checkUserExistence(String param1, String param2) {
     
 
     public static void generateEventsCSV2(Date fechaInicio, Date fechaFin, String filePath) {
-        System.out.println(filePath);
 
         String QUERY = "SELECT * FROM eventos WHERE fechaInicio >=  '"
                 + FormatFecha(fechaInicio)
                 + "' AND fechaFin <= '"
                 + FormatFecha(fechaFin) + "'";
 
-        System.out.println(QUERY);
         try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             try ( ResultSet rs = stmt.executeQuery();  FileWriter writer = new FileWriter(filePath)) {
@@ -372,7 +359,6 @@ public boolean checkUserExistence(String param1, String param2) {
                     writer.write(eventoData.toString());
                 }
 
-                System.out.println("Archivo CSV generado exitosamente: " + filePath);
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -380,11 +366,9 @@ public boolean checkUserExistence(String param1, String param2) {
     }
     
         public static void generateAulas(String filePath) {
-        System.out.println(filePath);
 
         String QUERY = "SELECT * FROM aulas";
 
-        System.out.println(QUERY);
         try ( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);  PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             try ( ResultSet rs = stmt.executeQuery();  FileWriter writer = new FileWriter(filePath)) {
@@ -416,9 +400,6 @@ public boolean checkUserExistence(String param1, String param2) {
                     eventoData.append(escapeCSVValue(rs.getString("tieneWifi"))).append("\n");
                     writer.write(eventoData.toString());
                 }
-                
-
-                System.out.println("Archivo CSV generado exitosamente: " + filePath);
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -462,7 +443,6 @@ public boolean checkUserExistence(String param1, String param2) {
                 //Presentamos los datos
 
                 String sql = "INSERT INTO edificios (id,nombre) VALUES (" + datos[0] + ",'" + datos[1] + "')";
-                System.out.println(sql);
                 SQLConstructor.insertSql(sql);
                 //stmt.executeUpdate(sql);
 
@@ -470,7 +450,6 @@ public boolean checkUserExistence(String param1, String param2) {
 
             //Capturamos las posibles excepciones
         } catch (Exception e) {
-            System.out.println("No funciona");
             e.printStackTrace();
 
         } finally {
@@ -510,7 +489,6 @@ public boolean checkUserExistence(String param1, String param2) {
                 datos = linea.split(";");
                 //Presentamos los datos
                 String sql = "INSERT INTO aulas (id, idEdificios, nombre, descripcion, ubicacion, aforo, numEnchufes, red, tieneProyector, tienePantallaMotorizada, tienePantallaManual, tieneSisAudio, tienePC, tieneMicIna, tieneMicAla, tieneRetroProy, tieneWifi) VALUES ("+datos[0]+",'"+datos[1]+"','"+datos[2]+"','"+datos[3]+"','" +datos[4]+"','"+datos[5]+"','"+datos[6]+"','"+datos[7]+"','"+datos[8]+"','"+datos[9]+"','"+datos[10]+"','"+datos[11]+"','"+datos[12]+"','"+datos[13]+"','"+datos[14]+"','"+datos[15]+"','"+datos[16]+"')";
-                System.out.println(sql);
                 SQLConstructor.insertSql(sql);
                 //stmt.executeUpdate(sql);
  
@@ -518,7 +496,6 @@ public boolean checkUserExistence(String param1, String param2) {
  
             //Capturamos las posibles excepciones
         } catch (Exception e) {
-            System.out.println("No funciona");
             e.printStackTrace();
        
         } finally {
@@ -562,7 +539,6 @@ public boolean checkUserExistence(String param1, String param2) {
                 //Presentamos los datos
 
                 String sql = "INSERT INTO login (email,pass) VALUES ('" +datos[1] + "','" + datos[2] + "')";
-                System.out.println(sql);
                 SQLConstructor.insertSql(sql);
                 //stmt.executeUpdate(sql);
 
@@ -570,7 +546,6 @@ public boolean checkUserExistence(String param1, String param2) {
 
             //Capturamos las posibles excepciones
         } catch (Exception e) {
-            System.out.println("No funciona");
             e.printStackTrace();
 
         } finally {
@@ -610,12 +585,10 @@ public void readDataAules(File file) {
             }
 
             String[] datos = linea.split(";");
-            System.out.println(datos[0]);
 
             // Verificar si el registro ya existe en la base de datos
             String idAula = datos[0];
             if (registroExiste(idAula)) {
-                System.out.println("El registro con ID " + idAula + " ya existe. Se realizará una actualización en lugar de la inserción.");
                 actualizarRegistro(datos);
             } else {
                 // Insertar el nuevo registro en la base de datos
@@ -629,10 +602,7 @@ public void readDataAules(File file) {
         // Eliminar los registros restantes en la base de datos que no existen en el CSV
         eliminarRegistrosNoExistentes(registrosActuales);
 
-        System.out.println("Finalizada la actualización del CSV.");
-
     } catch (Exception e) {
-        System.out.println("Ocurrió un error al actualizar el CSV.");
         e.printStackTrace();
     } finally {
         try {
@@ -707,7 +677,6 @@ private static void eliminarRegistrosNoExistentes(List<String> registrosNoExiste
             for (String id : registrosNoExistentes) {
                 statementEventos.setString(1, id);
                 statementEventos.executeUpdate();
-                System.out.println("Eliminando eventos asociados al registro con ID " + id);
             }
 
             // Eliminar los registros de la tabla aulas que no existen en el CSV
@@ -716,7 +685,6 @@ private static void eliminarRegistrosNoExistentes(List<String> registrosNoExiste
             for (String id : registrosNoExistentes) {
                 statementAulas.setString(1, id);
                 statementAulas.executeUpdate();
-                System.out.println("Eliminando registro con ID " + id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -785,14 +753,12 @@ private static void eliminarRegistrosNoExistentes(List<String> registrosNoExiste
     private static void insertarRegistro(String[] datos) {
         // Resto del código para insertar el registro en la base de datos
         String sql = "INSERT INTO aulas (id, idEdificios, nombre, descripcion, ubicacion, aforo, numEnchufes, red, tieneProyector, tienePantallaMotorizada, tienePantallaManual, tieneSisAudio, tienePC, tieneMicIna, tieneMicAla, tieneRetroProy, tieneWifi) VALUES (" + datos[0] + ",'" + datos[1] + "','" + datos[2] + "','" + datos[3] + "','" + datos[4] + "','" + datos[5] + "','" + datos[6] + "','" + datos[7] + "','" + datos[8] + "','" + datos[9] + "','" + datos[10] + "','" + datos[11] + "','" + datos[12] + "','" + datos[13] + "','" + datos[14] + "','" + datos[15] + "','" + datos[16] + "')";
-        System.out.println("Insertando nuevo registro: " + sql);
         SQLConstructor.insertSql(sql);
     }
 
     private static void actualizarRegistro(String[] datos) {
         // Resto del código para actualizar el registro existente en la base de datos
         String sql = "UPDATE aulas SET idEdificios = '" + datos[1] + "', nombre = '" + datos[2] + "', descripcion = '" + datos[3] + "', ubicacion = '" + datos[4] + "', aforo = '" + datos[5] + "', numEnchufes = '" + datos[6] + "', red = '" + datos[7] + "', tieneProyector = '" + datos[8] + "', tienePantallaMotorizada = '" + datos[9] + "', tienePantallaManual = '" + datos[10] + "', tieneSisAudio = '" + datos[11] + "', tienePC = '" + datos[12] + "', tieneMicIna = '" + datos[13] + "', tieneMicAla = '" + datos[14] + "', tieneRetroProy = '" + datos[15] + "', tieneWifi = '" + datos[16] + "' WHERE id = " + datos[0];
-        System.out.println("Actualizando registro existente: " + sql);
         SQLConstructor.insertSql(sql);
     }
 

@@ -43,8 +43,6 @@ public class downloadAule extends HttpServlet {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/aulaweb", "root", "");  Statement stmt = conn.createStatement();) {
 
         } catch (SQLException e) {
-            System.out.println("no va");
-            System.out.println(e);
         }
         try {
                 String home = System.getProperty("user.home");
@@ -79,7 +77,7 @@ public class downloadAule extends HttpServlet {
                 inputStream.close();
                 out.close();
             
-            JOptionPane.showMessageDialog(null, "Has podido descargar las aulas correctamente. Revise su carpeta de descargas.", "¡PERFECTO!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Aules donwloaded correctly. Check your download folder", "¡PERFECT!", JOptionPane.INFORMATION_MESSAGE);
 
                 
         } catch (Exception  e) {

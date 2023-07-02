@@ -42,13 +42,10 @@ public class EditEventServlet extends HttpServlet {
          Statement stmt = conn.createStatement();
     ) {		      
          // Execute a query
-         //System.out.println("Inserting records into the table...");          
          //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
          //stmt.executeUpdate(sql);
-         //System.out.println("Inserted records into the table...");   	  
     } catch (SQLException e) {
-         System.out.println("no va");
-         System.out.println(e);
+
     } 
              
              
@@ -75,8 +72,6 @@ public class EditEventServlet extends HttpServlet {
        String finalDate = date+T+hourEnd+dosPuntos+minuteEnd+dosPuntos00;       
        
        System.out.println(initialDate);
-
-       //Hay q hacer if para comprar fechas y que no se solapen
 
        
        if (Integer.parseInt(hourStart) > Integer.parseInt(hourEnd)){

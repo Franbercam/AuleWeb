@@ -43,8 +43,7 @@ public class CompareDate extends HttpServlet {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/aulaweb", "root", "");  Statement stmt = conn.createStatement();) {
 
         } catch (SQLException e) {
-            System.out.println("no va");
-            System.out.println(e);
+
         }
         try {
             String dateInitialString = request.getParameter("fecha-inicial");

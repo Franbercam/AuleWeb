@@ -43,28 +43,19 @@ public class NewServlet extends HttpServlet {
          Statement stmt = conn.createStatement();
     ) {		      
          // Execute a query
-         //System.out.println("Inserting records into the table...");          
          //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
          //stmt.executeUpdate(sql);
-         //System.out.println("Inserted records into the table...");   	  
     } catch (SQLException e) {
-         System.out.println("no va");
-         System.out.println(e);
+
     } 
         response.setContentType("text/html;charset=UTF-8");
         
         int id = Integer.parseInt( request.getParameter("id"));
         
-        System.out.println(id);
         String data = new SQLConstructor().getEventId(id);
         PrintWriter out = response.getWriter();
         
-        
         out.print(data);
-        
-        //String dataAulas = new SQLConstructor().exeQueryAulasId(id);
-        //System.out.println(dataAulas);
-        //out.print(dataAulas);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

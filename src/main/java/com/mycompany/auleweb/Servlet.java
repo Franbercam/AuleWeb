@@ -45,13 +45,10 @@ public class Servlet extends HttpServlet {
          Statement stmt = conn.createStatement();
     ) {		      
          // Execute a query
-         //System.out.println("Inserting records into the table...");          
          //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
          //stmt.executeUpdate(sql);
-         //System.out.println("Inserted records into the table...");   	  
     } catch (SQLException e) {
-         System.out.println("no va");
-         System.out.println(e);
+
     } 
              
              
@@ -77,17 +74,12 @@ public class Servlet extends HttpServlet {
        String initialDate = date+T+hourStart+dosPuntos+minuteStart+dosPuntos00;
        String finalDate = date+T+hourEnd+dosPuntos+minuteEnd+dosPuntos00;       
        
-       System.out.println(initialDate);
-
-       //Hay q hacer if para comprar fechas y que no se solapen
-
-       
        if (Integer.parseInt(hourStart) > Integer.parseInt(hourEnd)){
-        JOptionPane.showMessageDialog(null, "La fecha de inicio debe ser mayor que la fecha fin", "Hey!", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "The start date must be greater than the end date", "Hey!", JOptionPane.ERROR_MESSAGE);
         response.sendRedirect("/AuleWeb/additional_pages/testcalendar.html?id="+request.getParameter("iddepartamento")+"&idAula="+idAula);
            return;
        } else if (Integer.parseInt(hourStart) == 8 && Integer.parseInt(minuteStart) < 30) {
-           JOptionPane.showMessageDialog(null, "El primer evento que se puede añadir es a partir de las 08:30h", "Hey!", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(null, "The first event that can be added is from 08:30 a.m.", "Hey!", JOptionPane.ERROR_MESSAGE);
            response.sendRedirect("/AuleWeb/additional_pages/testcalendar.html?id="+request.getParameter("iddepartamento")+"&idAula="+idAula);
            return;
            

@@ -45,13 +45,10 @@ public class cargarAulas extends HttpServlet {
          Statement stmt = conn.createStatement();
     ) {		      
          // Execute a query
-         //System.out.println("Inserting records into the table...");          
          //String sql = "INSERT INTO comida3 (id,nombre,calorias,familia) VALUES (2,'test',2,'t')";
          //stmt.executeUpdate(sql);
-         //System.out.println("Inserted records into the table...");   	  
     } catch (SQLException e) {
-         System.out.println("no va");
-         System.out.println(e);
+
     } 
         response.setContentType("text/html;charset=UTF-8");
         
@@ -88,13 +85,13 @@ public class cargarAulas extends HttpServlet {
                 }
 
                 // Redireccionar o mostrar una respuesta exitosa
-                JOptionPane.showMessageDialog(null, "Respuesta exitosa, se ha podido subir el archivo correctamente", "¡PERFECTO!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "The file has been uploaded correctly", "¡PERFECT!", JOptionPane.INFORMATION_MESSAGE);
                 response.sendRedirect("/AuleWeb/");
             } catch (Exception e) {
                 e.printStackTrace();
                 // Manejar cualquier excepción ocurrida durante el procesamiento del archivo
                 // Redireccionar o mostrar una respuesta de error
-                JOptionPane.showMessageDialog(null, "Error, no se ha podido insertar el archivo", "Hey!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error, file could not be uploaded", "Hey!", JOptionPane.ERROR_MESSAGE);
                 response.sendRedirect("/AuleWeb/");
             }
         }
