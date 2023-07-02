@@ -1,0 +1,43 @@
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            margin-top: 200px;
+            position: relative;
+            text-align: center;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .content::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url(https://pbs.twimg.com/profile_images/844881776/logo-univaq_400x400.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            opacity: 0.15;
+            z-index: -1;
+            background-size: 40%;
+        }
+
+        .form-container {
+            background-color: transparent;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        form {
+            display: block;
+            margin: 20px;
+        }
+        
+        a {
+            margin-bottom: 40px;
+        }

@@ -7,22 +7,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <head>
         <title>Edit Aules</title>
         <link rel="stylesheet" href="../css/bootstrap-5.3.0-dist/css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="../css/addevent.css">
+        <link rel="stylesheet" type="text/css" href="../css/editaules.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        
+    <div class="content">
+        <a href="../index.html" class="btn btn-secondary">Home</a>
+        <h2>Load Aules File</h2>
+        <div class="form-container">
+            <form action="../cargarAulas" method="post" enctype="multipart/form-data" class="formeditaules">
+                <input type="file" name="archivo" required><br><br>
+                <input class="btn btn-warning" type="submit" value="Enviar">
+            </form>
+        </div>
 
-    <h2>Enviar archivo</h2>
-    <form action="../cargarAulas" method="post" enctype="multipart/form-data" class ="formeditaules">
-        <input type="file" name="archivo" required><br><br>
-        <input type="submit" value="Enviar">
-    </form>
-    
-    <h2>Descargar aulas</h2>
-    <form action="../downloadAule" method="post" enctype="multipart/form-data" class ="formeditaules">
-        <input type="submit" value="Descargar Aulas">
-    </form>
-</body>
+        <h2>Download Aules</h2>
+        <div class="form-container">
+            <form action="../downloadAule" method="post" enctype="multipart/form-data" class="formeditaules">
+                <input class="btn btn-warning" type="submit" value="Descargar Aulas">
+            </form>
+        </div>
+
+        <h2>Create departments</h2>
+        <div class="form-container">
+            <form action="../LoadDepartments" method="post" enctype="multipart/form-data" class="formeditaules">
+                <input type="file" name="archivo" required><br><br>
+                <input class="btn btn-warning" type="submit" value="Enviar">
+            </form>
+        </div>
+    </div>
 
 </html>

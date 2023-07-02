@@ -23,20 +23,9 @@ public class SQLConstructor {
 
     public static void main(String[] args) {
         
-        //getUsers();
-        //readDataBuildings();
-        //readDataAules2();
-        //readDataAules();
-        //exeQueryAulasId();
-        //exeQuery();
-        //exeQueryDepartamentos();
-        //readDataAdmin();
-        //(2, "a", "a", "a", "a@a.com", "2023-06-16T14:30:00", "2023-06-16T15:30:00", "examen", "nula", "1753-01-01T00:00:00" );
-        //String valor = new SQLConstructor().exeQueryEventos(2);
-        //System.out.println(valor);
-        //getEventsAula(1);
-        //String home = System.getProperty("user.home");
-        //generateEventsCSV2(new java.sql.Date(2023, 6, 26), new java.sql.Date(2023, 7, 1), home + "/Downloads/" + "evento" + ".csv");
+        readDataBuildings();
+        readDataAules2();
+        readDataAdmin();
     }
 
     public static void readEvents(int idAula, String nombre, String descripcion, String nombreResponsable, String emailResponsable, String fechaInicio, String fechaFin, String tipo, String recurrencia, String fechaFinRecurrencia) {
@@ -416,101 +405,99 @@ public boolean checkUserExistence(String param1, String param2) {
         return value;
     }
     
-        public static void readDataBuildings() {
+    public static void readDataBuildings() {
 
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-
-        String linea = null;
-
-        try {
-
-            //Cargamos el archivo de la ruta relativa
-            archivo = new File("src\\main\\webapp\\data\\edificios.csv");
-            //Cargamos el objeto FileReader
-            fr = new FileReader(archivo);
-            //Creamos un buffer de lectura
-            br = new BufferedReader(fr);
-
-            String[] datos = null;
-
-            //Leemos hasta que se termine el archivo
-            while ((linea = br.readLine()) != null) {
-
-                //Utilizamos el separador para los datos
-                datos = linea.split(";");
-                //Presentamos los datos
-
-                String sql = "INSERT INTO edificios (id,nombre) VALUES (" + datos[0] + ",'" + datos[1] + "')";
-                SQLConstructor.insertSql(sql);
-                //stmt.executeUpdate(sql);
-
-            }
-
-            //Capturamos las posibles excepciones
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        } finally {
-            try {
-                if (fr != null) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-
-    }
-
-        public static void readDataAules2() {
             File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
- 
-        String linea = null;
- 
-        try {
-            
-            //Cargamos el archivo de la ruta relativa
-            archivo = new File("src\\main\\webapp\\data\\aulas.csv");
-            //Cargamos el objeto FileReader
-            fr = new FileReader(archivo);
-            //Creamos un buffer de lectura
-            br = new BufferedReader(fr);
- 
-            String[] datos = null;
- 
-            //Leemos hasta que se termine el archivo
-            while ((linea = br.readLine()) != null) {
- 
-                //Utilizamos el separador para los datos
-                datos = linea.split(";");
-                //Presentamos los datos
-                String sql = "INSERT INTO aulas (id, idEdificios, nombre, descripcion, ubicacion, aforo, numEnchufes, red, tieneProyector, tienePantallaMotorizada, tienePantallaManual, tieneSisAudio, tienePC, tieneMicIna, tieneMicAla, tieneRetroProy, tieneWifi) VALUES ("+datos[0]+",'"+datos[1]+"','"+datos[2]+"','"+datos[3]+"','" +datos[4]+"','"+datos[5]+"','"+datos[6]+"','"+datos[7]+"','"+datos[8]+"','"+datos[9]+"','"+datos[10]+"','"+datos[11]+"','"+datos[12]+"','"+datos[13]+"','"+datos[14]+"','"+datos[15]+"','"+datos[16]+"')";
-                SQLConstructor.insertSql(sql);
-                //stmt.executeUpdate(sql);
- 
-            }
- 
-            //Capturamos las posibles excepciones
-        } catch (Exception e) {
-            e.printStackTrace();
-       
-        } finally {
-            try {
-                if (fr != null) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-        
-    
+            FileReader fr = null;
+            BufferedReader br = null;
 
+            String linea = null;
+
+            try {
+
+                //Cargamos el archivo de la ruta relativa
+                archivo = new File("src\\main\\webapp\\data\\edificios.csv");
+                //Cargamos el objeto FileReader
+                fr = new FileReader(archivo);
+                //Creamos un buffer de lectura
+                br = new BufferedReader(fr);
+
+                String[] datos = null;
+
+                //Leemos hasta que se termine el archivo
+                while ((linea = br.readLine()) != null) {
+
+                    //Utilizamos el separador para los datos
+                    datos = linea.split(";");
+                    //Presentamos los datos
+
+                    String sql = "INSERT INTO edificios (id,nombre) VALUES (" + datos[0] + ",'" + datos[1] + "')";
+                    SQLConstructor.insertSql(sql);
+                    //stmt.executeUpdate(sql);
+
+                }
+
+                //Capturamos las posibles excepciones
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                try {
+                    if (fr != null) {
+                        fr.close();
+                    }
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+
+        }
+
+public static void readDataAules2() {
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+ 
+    String linea = null;
+    int lineNumber = 0;
+ 
+    try {
+        // Cargamos el archivo de la ruta relativa
+        archivo = new File("src\\main\\webapp\\data\\aulas.csv");
+        // Cargamos el objeto FileReader
+        fr = new FileReader(archivo);
+        // Creamos un buffer de lectura
+        br = new BufferedReader(fr);
+ 
+        String[] datos = null;
+ 
+        // Leemos hasta que se termine el archivo
+        while ((linea = br.readLine()) != null) {
+            lineNumber++;
+            // Saltar la primera línea
+            if (lineNumber == 1) {
+                continue;
+            }
+ 
+            // Utilizamos el separador para los datos
+            datos = linea.split(";");
+            // Presentamos los datos
+            String sql = "INSERT INTO aulas (id, idEdificios, nombre, descripcion, ubicacion, aforo, numEnchufes, red, tieneProyector, tienePantallaMotorizada, tienePantallaManual, tieneSisAudio, tienePC, tieneMicIna, tieneMicAla, tieneRetroProy, tieneWifi) VALUES ("+datos[0]+",'"+datos[1]+"','"+datos[2]+"','"+datos[3]+"','" +datos[4]+"','"+datos[5]+"','"+datos[6]+"','"+datos[7]+"','"+datos[8]+"','"+datos[9]+"','"+datos[10]+"','"+datos[11]+"','"+datos[12]+"','"+datos[13]+"','"+datos[14]+"','"+datos[15]+"','"+datos[16]+"')";
+            SQLConstructor.insertSql(sql);
+        }
+ 
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (fr != null) {
+                fr.close();
+            }
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
     }
+}
     
     public static void readDataAdmin() {
 
@@ -560,63 +547,118 @@ public boolean checkUserExistence(String param1, String param2) {
 
     }
 
-public void readDataAules(File file) {
-    FileReader fr = null;
-    BufferedReader br = null;
+    public void readDataAules(File file) {
+        FileReader fr = null;
+        BufferedReader br = null;
 
-    try {
-        // Cargamos el objeto FileReader utilizando el archivo pasado como parámetro
-        fr = new FileReader(file);
-        // Creamos un buffer de lectura
-        br = new BufferedReader(fr);
-
-        String linea = null;
-        List<String> registrosActuales = obtenerRegistrosActuales();
-
-        // Variable para seguir la pista de la primera línea
-        boolean primeraLinea = true;
-
-        // Leemos hasta que se termine el archivo
-        while ((linea = br.readLine()) != null) {
-            // Saltar la primera línea
-            if (primeraLinea) {
-                primeraLinea = false;
-                continue;
-            }
-
-            String[] datos = linea.split(";");
-
-            // Verificar si el registro ya existe en la base de datos
-            String idAula = datos[0];
-            if (registroExiste(idAula)) {
-                actualizarRegistro(datos);
-            } else {
-                // Insertar el nuevo registro en la base de datos
-                insertarRegistro(datos);
-            }
-
-            // Remover el registro actual de la lista para los registros que existen en el CSV
-            registrosActuales.remove(idAula);
-        }
-
-        // Eliminar los registros restantes en la base de datos que no existen en el CSV
-        eliminarRegistrosNoExistentes(registrosActuales);
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
         try {
-            if (br != null) {
-                br.close();
+            // Cargamos el objeto FileReader utilizando el archivo pasado como parámetro
+            fr = new FileReader(file);
+            // Creamos un buffer de lectura
+            br = new BufferedReader(fr);
+
+            String linea = null;
+            List<String> registrosActuales = obtenerRegistrosActuales();
+
+            // Variable para seguir la pista de la primera línea
+            boolean primeraLinea = true;
+
+            // Leemos hasta que se termine el archivo
+            while ((linea = br.readLine()) != null) {
+                // Saltar la primera línea
+                if (primeraLinea) {
+                    primeraLinea = false;
+                    continue;
+                }
+
+                String[] datos = linea.split(";");
+
+                // Verificar si el registro ya existe en la base de datos
+                String idAula = datos[0];
+                if (registroExiste(idAula)) {
+                    actualizarRegistro(datos);
+                } else {
+                    // Insertar el nuevo registro en la base de datos
+                    insertarRegistro(datos);
+                }
+
+                // Remover el registro actual de la lista para los registros que existen en el CSV
+                registrosActuales.remove(idAula);
             }
-            if (fr != null) {
-                fr.close();
+
+            // Eliminar los registros restantes en la base de datos que no existen en el CSV
+            eliminarRegistrosNoExistentes(registrosActuales);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+                if (fr != null) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
             }
-        } catch (Exception e2) {
-            e2.printStackTrace();
         }
     }
-}
+
+   
+    
+    public void readDataDepartments(File file) {
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+            // Cargamos el objeto FileReader utilizando el archivo pasado como parámetro
+            fr = new FileReader(file);
+            // Creamos un buffer de lectura
+            br = new BufferedReader(fr);
+
+            String linea = null;
+            List<String> registrosActuales = obtenerRegistrosActualesDepartment();
+
+            // Variable para seguir la pista de la primera línea
+
+            // Leemos hasta que se termine el archivo
+            while ((linea = br.readLine()) != null) {
+
+                String[] datos = linea.split(";");
+
+
+                // Verificar si el registro ya existe en la base de datos
+                String idDepartament = datos[0];
+                if (registroExiste(idDepartament)) {
+                    actualizarRegistroDepartments(datos);
+                } else {
+                    // Insertar el nuevo registro en la base de datos
+                    insertarRegistroDepartment(datos);
+                }
+
+                // Remover el registro actual de la lista para los registros que existen en el CSV
+                registrosActuales.remove(idDepartament);
+            }
+
+            // Eliminar los registros restantes en la base de datos que no existen en el CSV
+            eliminarRegistrosNoExistentesDepartment(registrosActuales);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+                if (fr != null) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
 
 private static List<String> obtenerRegistrosActuales() {
         Connection connection = null;
@@ -662,7 +704,51 @@ private static List<String> obtenerRegistrosActuales() {
         return registrosActuales;
     }
 
-private static void eliminarRegistrosNoExistentes(List<String> registrosNoExistentes) {
+    private static List<String> obtenerRegistrosActualesDepartment() {
+            Connection connection = null;
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
+            List<String> registrosActuales = new ArrayList<>();
+
+            try {
+                // Establecer la conexión a la base de datos
+                connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+                // Preparar la consulta SQL para obtener todos los registros actuales
+                String sql = "SELECT id FROM edificios";
+                statement = connection.prepareStatement(sql);
+
+                // Ejecutar la consulta y obtener el resultado
+                resultSet = statement.executeQuery();
+
+                // Agregar los ID de los registros actuales a la lista
+                while (resultSet.next()) {
+                    String id = resultSet.getString("id");
+                    registrosActuales.add(id);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                // Cerrar los recursos
+                try {
+                    if (resultSet != null) {
+                        resultSet.close();
+                    }
+                    if (statement != null) {
+                        statement.close();
+                    }
+                    if (connection != null) {
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return registrosActuales;
+        }
+
+    private static void eliminarRegistrosNoExistentes(List<String> registrosNoExistentes) {
         Connection connection = null;
         PreparedStatement statementEventos = null;
         PreparedStatement statementAulas = null;
@@ -705,6 +791,52 @@ private static void eliminarRegistrosNoExistentes(List<String> registrosNoExiste
             }
         }
     }
+
+    
+private static void eliminarRegistrosNoExistentesDepartment(List<String> registrosNoExistentes) {
+    Connection connection = null;
+    PreparedStatement statementEdificios = null;
+    PreparedStatement statementAulas = null;
+
+    try {
+        // Establecer la conexión a la base de datos
+        connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+        // Eliminar los registros de la tabla edificios que corresponden a los registros no existentes
+        String sqlEdificios = "DELETE FROM edificios WHERE id = ?";
+        statementEdificios = connection.prepareStatement(sqlEdificios);
+        for (String id : registrosNoExistentes) {
+            statementEdificios.setString(1, id);
+            statementEdificios.executeUpdate();
+        }
+
+        // Eliminar los registros de la tabla aulas que no existen en el CSV
+        String sqlAulas = "DELETE FROM aulas WHERE id = ?";
+        statementAulas = connection.prepareStatement(sqlAulas);
+        for (String id : registrosNoExistentes) {
+            statementAulas.setString(1, id);
+            statementAulas.executeUpdate();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Cerrar los recursos
+        try {
+            if (statementEdificios != null) {
+                statementEdificios.close();
+            }
+            if (statementAulas != null) {
+                statementAulas.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
 
     
     private static boolean registroExiste(String idAula) {
@@ -756,6 +888,18 @@ private static void eliminarRegistrosNoExistentes(List<String> registrosNoExiste
         SQLConstructor.insertSql(sql);
     }
 
+    private static void insertarRegistroDepartment(String[] datos) {
+        // Resto del código para insertar el registro en la base de datos
+        String sql = "INSERT INTO edificios (id, nombre) VALUES (" + datos[0] + ",'" + datos[1] +  "')";
+        SQLConstructor.insertSql(sql);
+    }
+    
+    private static void actualizarRegistroDepartments(String[] datos) {
+        // Resto del código para actualizar el registro existente en la base de datos
+        String sql = "UPDATE edificios SET id = '" + datos[0] + "', nombre = '" + datos[1] + "' WHERE id = " + datos[0];
+        SQLConstructor.insertSql(sql);
+    }
+    
     private static void actualizarRegistro(String[] datos) {
         // Resto del código para actualizar el registro existente en la base de datos
         String sql = "UPDATE aulas SET idEdificios = '" + datos[1] + "', nombre = '" + datos[2] + "', descripcion = '" + datos[3] + "', ubicacion = '" + datos[4] + "', aforo = '" + datos[5] + "', numEnchufes = '" + datos[6] + "', red = '" + datos[7] + "', tieneProyector = '" + datos[8] + "', tienePantallaMotorizada = '" + datos[9] + "', tienePantallaManual = '" + datos[10] + "', tieneSisAudio = '" + datos[11] + "', tienePC = '" + datos[12] + "', tieneMicIna = '" + datos[13] + "', tieneMicAla = '" + datos[14] + "', tieneRetroProy = '" + datos[15] + "', tieneWifi = '" + datos[16] + "' WHERE id = " + datos[0];
