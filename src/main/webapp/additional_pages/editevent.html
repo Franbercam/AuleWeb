@@ -182,9 +182,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         const fechaInicio = urlParams.get("fechaInicio");
         const fechaInicioParts = fechaInicio.split(" ");
         const fecha = fechaInicioParts[0];
-        const horaIn = parseInt(fechaInicioParts[1].split(":")[0]);
-        const minutosIn = parseInt(fechaInicioParts[1].split(":")[1]);
-        
+        const horaIn = parseInt(fechaInicioParts[1].split(":")[0], 10);
+        const minutosIn = parseInt(fechaInicioParts[1].split(":")[1], 10);
+
         const fechaFin = urlParams.get("fechaFin");
         const fechaFinParts = fechaFin.split(" ");
         const horaFi = parseInt(fechaFinParts[1].split(":")[0], 10);
@@ -192,10 +192,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
         document.querySelector("#fechaInicio").value = fecha || "";
         document.querySelector("#horaIn").value = horaIn || "";
-        document.querySelector("#minutosIn").value = minutosIn || "";
+        document.querySelector("#minutosIn").value = minutosIn || "00";
 
         document.querySelector("#horaFin").value = horaFi || "";
-        document.querySelector("#minFin").value = minutosFi || "";
+        document.querySelector("#minFin").value = minutosFi || "00";
       });
     </script>
 
