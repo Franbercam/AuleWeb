@@ -71,3 +71,8 @@
   width: 20px; 
   height: 20px; 
 }
+
+.container-leg {
+    text-align: center;
+    margin: 10px
+}

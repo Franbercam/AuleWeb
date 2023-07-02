@@ -23,7 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
       window.onload = function () {
         declareListeners();
         loadAulas(loadSelectAulas);
-        loadLegend();
+        
       };
 
       function declareListeners() {
@@ -41,29 +41,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
           }
           goToNuevoEvento(aulaId);
         });
-      }
-
-      function loadLegend() {
-        // Después de asignar el color correspondiente a cada tipo de evento...
-        var leyendaLista = document.getElementById('leyenda-lista');
-
-        // Función para agregar un elemento a la leyenda con el tipo de evento y su color correspondiente
-        function agregarElementoLeyenda(tipoEvento, color) {
-          var listItem = document.createElement('li');
-          listItem.innerHTML = tipoEvento;
-          listItem.style.backgroundColor = color;
-          leyendaLista.appendChild(listItem);
-        }
-
-        // Llamada a la función agregarElementoLeyenda para cada tipo de evento
-        agregarElementoLeyenda('Conference', '#FF0909');
-        agregarElementoLeyenda('Exam', '#FFD209');
-        agregarElementoLeyenda('Seminary', '#75FF09');
-        agregarElementoLeyenda('Part exam', '#09FFD2');
-        agregarElementoLeyenda('Meeting', '#094CFF');
-        agregarElementoLeyenda('Graduation', '#8B09FF');
-        agregarElementoLeyenda('Other', '#FF09CF');
-        agregarElementoLeyenda('Predeterminated', 'black');
       }
 
       function loadAulas(callBack) {
@@ -234,14 +211,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <input class = "btn btn-warning" type="submit" value="Send">
         </form>
         
-        <div id="leyenda">
-            <div class="leyenda-header">
-                <b>Chart Legend</b>
-            </div>
-            <div class="leyenda-body">
-                <ul id="leyenda-lista"></ul>
-            </div>
+        <div class="container-leg">
+            <button class="btn" style="background-color: #FF0909; color: white;">Conference</button>
+            <button class="btn" style="background-color: #FFD209; color: white;">Exam</button>
+            <button class="btn" style="background-color: #75FF09; color: white;">Seminary</button>
+            <button class="btn" style="background-color: #09FFD2; color: white;">Part exam</button>
+            <button class="btn" style="background-color: #094CFF; color: white;">Meeting</button>
+            <button class="btn" style="background-color: #8B09FF; color: white;">Graduation</button>
+            <button class="btn" style="background-color: #FF09CF; color: white;">Other</button>
+            <button class="btn" style="background-color: black; color: white;">Predeterminated</button>
+
         </div>
+        
+        
 
     <table>
         <thead>

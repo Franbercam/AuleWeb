@@ -26,12 +26,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
         </nav>
         
-        <script>
+        <script>            
+            
             // Obtener el email de la sesión
             var email = sessionStorage.getItem("email");
-            
+            console.log(email);
             // Verificar si hay una sesión iniciada
-            if (email) {
+            if (email || null) {
                 
                 // Mostrar el email en el navbar
                 var emailContainer = document.getElementById("email-container");

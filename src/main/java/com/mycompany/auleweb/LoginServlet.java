@@ -115,12 +115,15 @@ public class LoginServlet extends HttpServlet {
     
     private void establishUserSession(HttpServletRequest request, String email) {
     HttpSession session = request.getSession(true);
-    session.setAttribute("email", email);
+    session.putValue("email", email);
 
     // Establecer la duración máxima de la sesión (en segundos)
     int sessionTimeout = 3600; // 1 hora (ajústalo según tus necesidades)
     session.setMaxInactiveInterval(sessionTimeout);
+    
     }
+    
+   
            
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
