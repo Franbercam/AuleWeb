@@ -33,7 +33,7 @@ Here is a step-by-step guide to help you initialize the database:
     
 
 ## Authors
-Juan José Gómez Borrallo  Francisco de Asís Bermúdez Campuzano
+Juan José Gómez Borrallo and Francisco de Asís Bermúdez Campuzano
 
 ## About us
 We are Erasmus students from Seville, Spain.
